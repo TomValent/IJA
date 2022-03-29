@@ -1,6 +1,6 @@
 package ija.projekt.uml;
 
-public class UMLClassifier extends Element{
+public class UMLClassifier extends Element {
     private boolean userDefined = true;
 
     public UMLClassifier(java.lang.String name) {
@@ -19,9 +19,9 @@ public class UMLClassifier extends Element{
     public boolean isUserDefined() {
         return userDefined;
     }
+
     @Override
-    public java.lang.String toString()
-    {
+    public java.lang.String toString() {
         return name + "(" + userDefined + ")";
     }
 }

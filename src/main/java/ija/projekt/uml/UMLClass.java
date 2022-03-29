@@ -5,20 +5,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class UMLClass extends UMLClassifier {
+    private final List<UMLAttribute> attributes = new ArrayList<>();
     private boolean abs;
-    private List<UMLAttribute> attributes = new ArrayList<>();
 
     public UMLClass(String name) {
         super(name);
         abs = false;
     }
 
-    public void setAbstract(boolean abs) {
-        this.abs = abs;
-    }
-
     public boolean isAbstract() {
         return abs;
+    }
+
+    public void setAbstract(boolean abs) {
+        this.abs = abs;
     }
 
     public void addAttribute(UMLAttribute attribute) {
@@ -40,5 +40,9 @@ public class UMLClass extends UMLClassifier {
             return 0;
         }
         return -1;
+    }
+
+    public void removeAttr(UMLAttribute attr) {
+        attributes.remove(attr);
     }
 }
