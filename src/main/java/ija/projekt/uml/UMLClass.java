@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Tomas Valent
+ * Class represents class in class diagram.
+ */
 public class UMLClass extends UMLClassifier {
     private final List<UMLAttribute> attributes = new ArrayList<>();
     private boolean abs;

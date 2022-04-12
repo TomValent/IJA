@@ -3,7 +3,10 @@ package ija.projekt.uml;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * @author Tomas Valent
+ * Class for creeating objects in lifeline of quaestor in sequence diagram.
+ */
 public class LifelineObject {
     private final Map<String, LifelineObject> from = new HashMap<>();
     private final Map<String, LifelineObject> to = new HashMap<>();

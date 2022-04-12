@@ -1,5 +1,9 @@
 package ija.projekt.uml;
 
+/**
+ * @author Tomas Valent
+ * Class for creeating classifiers.
+ */
 public class UMLClassifier extends Element {
     private boolean userDefined = true;
 

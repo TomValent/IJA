@@ -1,5 +1,9 @@
 package ija.projekt.uml;
 
+/**
+ * @author Tomas Valent
+ * Class represents named elements in diagram.
+ */
 public class Element {
     String name;
 
