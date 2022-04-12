@@ -3,6 +3,9 @@
         <fileset dir="lib">
             <include name="**/*.jar" />
         </fileset>
+        <fileset dir="data">
+            <include name="**/*.txt" />
+        </fileset>
     </path>
 
     <target name = "clean">
@@ -21,12 +24,15 @@
         <mkdir dir="dest" />
         <jar destfile="dest/IJAProjekt.jar" basedir="build">
             <manifest>
-                <attribute name="Main-Class" value="ija.projekt.HelloApplication"/>
+                <attribute name="Main-Class" value="ija.projekt.Application"/>
             </manifest>
             <zipgroupfileset dir="lib" includes="**/*.jar"/>
-            <fileset file="data/hello-view.fxml"/>
+            <fileset file="data/*.txt"/>
+            <fileset file="src/main/java/ija/projekt/main-screen.fxml"/>
+            <fileset file="src/main/java/ija/projekt/welcome-screen.fxml"/>
         </jar>
     </target>
+
 
     <target name="run">
         <java jar="dest/IJAProjekt.jar" fork="true">
