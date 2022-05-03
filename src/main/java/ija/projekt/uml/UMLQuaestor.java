@@ -3,7 +3,11 @@ package ija.projekt.uml;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UMLQuaestor extends Element {
+/**
+ * @author Tomas Valent
+ * Class represents quaestor in sequence diagram.
+ */
+public class UMLQuaestor extends UMLClassifier {
     private final List<LifelineObject> objs = new ArrayList<>();
 
     public UMLQuaestor(String name) {

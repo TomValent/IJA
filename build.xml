@@ -4,20 +4,21 @@
             <include name="**/*.jar" />
         </fileset>
         <fileset dir="data">
-            <include name="**/*.txt" />
+            <include name="**/*.json" />
         </fileset>
     </path>
 
     <target name = "clean">
         <delete dir="build"/>
         <delete dir="dest"/>
+        <delete dir="doc"/>
     </target>
 
     <target name = "compile">
         <mkdir dir="build" />
         <javac srcdir="src" destdir="build" includeantruntime="false">
             <modulepath path="lib/lib"/>
-            <compilerarg line="--add-modules javafx.controls,javafx.fxml"/>
+            <compilerarg line="--add-modules javafx.controls,javafx.fxml,com.google.gson"/>
             <classpath refid="class.path"/>
         </javac>
 
@@ -37,7 +38,21 @@
     <target name="run">
         <java jar="dest/IJAProjekt.jar" fork="true">
             <modulepath path="lib/lib"/>
-            <jvmarg line="--add-modules javafx.controls,javafx.fxml"/>
+            <jvmarg line="--add-modules javafx.controls,javafx.fxml,com.google.gson"/>
         </java>
     </target>
+
+
+    <target name="doc">
+        <mkdir dir="doc" />
+        <javadoc destdir="doc" defaultexcludes="yes" classpath="lib/lib">
+            <fileset dir="src/main/java/ija/projekt" >
+                <include name="**/*.java"/>
+            </fileset>
+            <classpath>
+                <path refid="class.path"/>
+            </classpath>
+        </javadoc>
+    </target>
+
 </project>

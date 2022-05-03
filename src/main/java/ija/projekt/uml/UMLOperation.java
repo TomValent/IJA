@@ -3,6 +3,10 @@ package ija.projekt.uml;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Tomas Valent
+ * Class represents operation.
+ */
 public class UMLOperation {
     private final List<UMLAttribute> arguments = new ArrayList<>();
     private final UMLClassifier classifier;

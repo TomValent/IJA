@@ -3,6 +3,10 @@ package ija.projekt.uml;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Tomas Valent
+ * Class for creeating class diagram.
+ */
 public class ClassDiagram extends UMLClassifier {
     private final List<UMLClassifier> classifiers = new ArrayList<>();
 

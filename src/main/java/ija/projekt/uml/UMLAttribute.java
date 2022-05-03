@@ -1,6 +1,10 @@
 package ija.projekt.uml;
 
-public class UMLAttribute extends UMLClass {
+/**
+ * @author Tomas Valent
+ * Class represents attribute in diagram. Every attribute has its name and type.
+ */
+public class UMLAttribute extends Element {
     private final UMLClassifier classifier;
 
     public UMLAttribute(String name, UMLClassifier classifier) {

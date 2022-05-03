@@ -1,6 +1,10 @@
 package ija.projekt.uml;
 
-public class UMLRequest extends Element {
+/**
+ * @author Tomas Valent
+ * Class represents request between 2 quaestors in sequence diagram.
+ */
+public class UMLRequest extends UMLClassifier {
     public UMLRequest(java.lang.String name) {
         super(name);
     }

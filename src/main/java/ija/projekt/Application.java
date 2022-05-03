@@ -36,8 +36,12 @@ public class Application extends javafx.application.Application {
     }
 
     public static void parse(){
-        Main parse = new Main();
-        parse.main(new String[]{"data/example.txt"});
+        Parser input = new Parser();
+        try{
+            input.parse("./data/example.json");
+        }catch(IOException e){
+            System.err.println(e);
+        }
     }
 
 

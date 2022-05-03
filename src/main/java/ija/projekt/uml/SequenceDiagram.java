@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * @author Tomas Valent
+ * Class for creeating sequence diagram.
+ */
 public class SequenceDiagram extends UMLClassifier {
     private final List<UMLQuaestor> quaestors = new ArrayList<>();
 
