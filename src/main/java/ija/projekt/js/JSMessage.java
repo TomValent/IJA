@@ -9,13 +9,13 @@ import java.util.List;
  * Equivalent for UMLRequest in class diagram.
  */
 public class JSMessage {
-    private final String name;
-    private final String type;
-    private final String sender;
-    private final String receiver;
-    private final boolean transmition;
+    private String name;
+    private String type;
+    private String sender;
+    private String receiver;
+    private String transmition;
 
-    public JSMessage(String name, String type, String sender, String receiver, boolean transmition){
+    public JSMessage(String name, String type, String sender, String receiver, String transmition){
         this.name = name;
         this.type = type;
         this.sender = sender;
@@ -38,7 +38,27 @@ public class JSMessage {
         return receiver;
     }
 
-    public boolean isTransmition() {
+    public String getTransmition() {
         return transmition;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setTransmition(String transmition) {
+        this.transmition = transmition;
     }
 }

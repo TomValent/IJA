@@ -9,7 +9,7 @@ import java.util.Map;
  * Class for storing json.
  */
 public class InOut{
-    String name;
+    private String name;
     private List<JSClass> classes = new ArrayList<>();
     private List<JSMessage> messages = new ArrayList<>();
 
@@ -17,5 +17,13 @@ public class InOut{
         this.name = name;
         this.classes = classes;
         this.messages = messages;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

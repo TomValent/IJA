@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSClass {
-    private final boolean abs;
-    private final String name;
+    private String abs;
+    private String name;
     private final List<String> attr = new ArrayList<>();
 
-    public JSClass(boolean abs, String name, List<String> attr) {
+    public JSClass(String abs, String name, List<String> attr) {
         this.abs = abs;
         this.name = name;
         this.attr.addAll(attr);
     }
 
-    public boolean isAbs() {
+    public String getAbs() {
         return abs;
     }
 
@@ -24,5 +24,23 @@ public class JSClass {
 
     public List<String> getAttr() {
         return attr;
+    }
+
+    public void setAbs(String abs) {
+        this.abs = abs;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addAttr(String attr) {
+        this.attr.add(attr);
+    }
+
+    public void rmAttr(String attr) {
+        if (this.attr.contains(attr)) {
+            this.attr.remove(attr);
+        }
     }
 }
