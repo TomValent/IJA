@@ -9,10 +9,18 @@ public class UMLRequest extends UMLClassifier {
         super(name);
     }
 
+    /**
+     * Getter for name of request.
+     * @return name of request.
+     */
     public java.lang.String getName() {
         return this.name;
     }
 
+    /**
+     * Setter for name of request.
+     * @param name new name.
+     */
     public void setName(java.lang.String name) {
         this.name = name;
     }

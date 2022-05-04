@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Tomas Valent
+ * @author Magdalena Bellayova
  * Class for creeating class diagram.
  */
 public class ClassDiagram extends Element {
