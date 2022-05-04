@@ -12,45 +12,30 @@ import java.util.Map;
 
 public class GeneralizationSpecification extends UMLClassRelationship{
 
-    private ArrayList<UMLClass> generalization = new ArrayList<UMLClass>();
-    private ArrayList<UMLClass> specifications = new ArrayList<UMLClass>();
+    private ArrayList<UMLClass> children = new ArrayList<UMLClass>();
     private int gen_or_spec; // 0 - generalization, 1 - specification
-
-    public GeneralizationSpecification(String name) {
+    private UMLClass parent;
+    public GeneralizationSpecification(String name, UMLClass parent, int typ) {
         super(name);
-    }
-    public GeneralizationSpecification(String name, int typ) {
-        super(name);
+        this.parent = parent;
         this.gen_or_spec = typ;
     }
 
-    public boolean addGeneration(UMLClass oneclass){
-        if (this.generalization.size() == 0) {
-            this.generalization.add(oneclass);
+    public boolean addChild(UMLClass oneclass){
+        if (this.children.size() == 0) {
+            this.children.add(oneclass);
             return true;
         }
         return false;
     }
-    public boolean addSpecification(UMLClass oneclass){
-        if (this.specifications.indexOf(oneclass)!=-1){
-            this.specifications.add(oneclass);
-            return true;
-        }
-        return false;
-    }
-    public boolean deleteGeneralization(UMLClass oneclass){
-        if(this.generalization.indexOf(oneclass)==-1) {
+
+    public boolean deleteChild(UMLClass oneclass){
+        if(this.children.indexOf(oneclass)==-1) {
             return false;
         }
-        this.generalization.remove(oneclass);
+        this.children.remove(oneclass);
         return true;
     }
-    public boolean deleteSpecification(UMLClass oneclass){
-        if(this.specifications.indexOf(oneclass)==-1) {
-            return false;
-        }
-        this.specifications.remove(oneclass);
-        return true;
-    }
+
 
 }

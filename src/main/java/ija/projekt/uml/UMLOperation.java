@@ -7,14 +7,11 @@ import java.util.List;
  * @author Tomas Valent
  * Class represents operation.
  */
-public class UMLOperation {
+public class UMLOperation extends UMLAttribute{
     private final List<UMLAttribute> arguments = new ArrayList<>();
-    private final UMLClassifier classifier;
-    private final String name;
 
     public UMLOperation(java.lang.String name, UMLClassifier classifier) {
-        this.name = name;
-        this.classifier = classifier;
+        super(name,classifier);
     }
 
     public static UMLOperation create(java.lang.String name, UMLClassifier classifier, UMLAttribute... args) {

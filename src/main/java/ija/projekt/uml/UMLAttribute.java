@@ -5,7 +5,7 @@ package ija.projekt.uml;
  * Class represents attribute in diagram. Every attribute has its name and type.
  */
 public class UMLAttribute extends Element {
-    private final UMLClassifier classifier;
+    public final UMLClassifier classifier;
 
     public UMLAttribute(String name, UMLClassifier classifier) {
         super(name);
