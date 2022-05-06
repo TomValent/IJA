@@ -12,9 +12,9 @@ public class InOut{
     private String name;
     private List<JSClass> classes = new ArrayList<>();
     private List<JSMessage> messages = new ArrayList<>();
-    private List<JSAssociation> associations = new ArrayList<>();
-    private List<JSAggrComp> aggr_comp = new ArrayList<>();
-    private List<JSInheritance> inherit = new ArrayList<>();
+    private List<JSAssociation> association = new ArrayList<>();
+    private List<JSAggrComp> agg_com = new ArrayList<>();
+    private List<JSInheritance> gen_spe = new ArrayList<>();
 
     /**
      * Konstructor of InOut class.
@@ -26,9 +26,9 @@ public class InOut{
         this.name = name;
         this.classes = classes;
         this.messages = messages;
-        this.associations = associations;
-        this.aggr_comp = aggr_comp;
-        this.inherit = inherit;
+        this.association = associations;
+        this.agg_com = aggr_comp;
+        this.gen_spe = inherit;
     }
 
     /**
@@ -100,7 +100,7 @@ public class InOut{
      * @return all associations.
      */
     public List<JSAssociation> getAssociations() {
-        return associations;
+        return association;
     }
 
     /**
@@ -108,7 +108,7 @@ public class InOut{
      * @param association new association.
      */
     public void addAssociation(JSAssociation association) {
-        this.associations.add(association);
+        this.association.add(association);
     }
 
     /**
@@ -116,7 +116,7 @@ public class InOut{
      * @param association association that will be removed.
      */
     public void rmAssociation(JSAssociation association) {
-        this.associations.remove(association);
+        this.association.remove(association);
     }
 
     /**
@@ -124,7 +124,7 @@ public class InOut{
      * @return list of aggregations and compositions.
      */
     public List<JSAggrComp> getAggr_comp() {
-        return aggr_comp;
+        return agg_com;
     }
 
     /**
@@ -132,7 +132,7 @@ public class InOut{
      * @param aggrComp new aggregation or composition.
      */
     public void addAggrComp(JSAggrComp aggrComp) {
-        this.aggr_comp.add(aggrComp);
+        this.agg_com.add(aggrComp);
     }
 
     /**
@@ -140,7 +140,7 @@ public class InOut{
      * @param aggrComp aggregation or composition that will be removed.
      */
     public void rmAggrComp(JSAggrComp aggrComp) {
-        this.aggr_comp.remove(aggrComp);
+        this.agg_com.remove(aggrComp);
     }
 
     /**
@@ -148,7 +148,7 @@ public class InOut{
      * @return all inheritances.
      */
     public List<JSInheritance> getInherit() {
-        return inherit;
+        return gen_spe;
     }
 
     /**
@@ -156,7 +156,7 @@ public class InOut{
      * @param inherit new inheritance.
      */
     public void addInherit(JSInheritance inherit) {
-        this.inherit.add(inherit);
+        this.gen_spe.add(inherit);
     }
 
     /**
@@ -164,6 +164,6 @@ public class InOut{
      * @param inherit inheritance that will be removed.
      */
     public void rmInherit(JSInheritance inherit) {
-        this.inherit.remove(inherit);
+        this.gen_spe.remove(inherit);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class JSInheritance {
     private String parentClass;
     private String type;
-    private List<String> childClasses = new ArrayList<>();
+    private List<JSChild> childClasses = new ArrayList<>();
 
     /**
      * Constructor of inheritance.
@@ -18,7 +18,7 @@ public class JSInheritance {
      * @param type type -> generalisation/specialisation -> 0/1.
      * @param childClasses list of child classes.
      */
-    public JSInheritance(String parentClass, String type, List<String> childClasses) {
+    public JSInheritance(String parentClass, String type, List<JSChild> childClasses) {
         this.parentClass = parentClass;
         this.type = type;
         this.childClasses = childClasses;
@@ -60,7 +60,7 @@ public class JSInheritance {
      * Getter for list of child classes.
      * @return list of child classes.
      */
-    public List<String> getChildClasses() {
+    public List<JSChild> getChildClasses() {
         return childClasses;
     }
 
@@ -68,7 +68,7 @@ public class JSInheritance {
      * Add new child class.
      * @param child new child class.
      */
-    public void addChild(String child) {
+    public void addChild(JSChild child) {
         this.childClasses.add(child);
     }
 
@@ -76,7 +76,7 @@ public class JSInheritance {
      * Remove child class.
      * @param child child that will be removed.
      */
-    public void rmChild(String child) {
+    public void rmChild(JSChild child) {
         this.childClasses.remove(child);
     }
 }

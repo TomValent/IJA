@@ -5,7 +5,7 @@ package ija.projekt.js;
  * Class for storing associations.
  */
 public class JSAssociation {
-    private String description;
+    private String desc;
     private String class1;
     private String class2;
     private String cardinality1;
@@ -20,7 +20,7 @@ public class JSAssociation {
      * @param cardinality2 cardinality of second class.
      */
     public JSAssociation(String description, String class1, String class2, String cardinality1, String cardinality2) {
-        this.description = description;
+        this.desc = description;
         this.class1 = class1;
         this.class2 = class2;
         this.cardinality1 = cardinality1;
@@ -32,7 +32,7 @@ public class JSAssociation {
      * @return description od association.
      */
     public String getDescription() {
-        return description;
+        return desc;
     }
 
     /**
@@ -40,7 +40,7 @@ public class JSAssociation {
      * @param description new description.
      */
     public void setDescription(String description) {
-        this.description = description;
+        this.desc = description;
     }
 
     /**

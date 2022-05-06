@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import ija.projekt.js.*;
 import static java.lang.System.exit;
@@ -36,10 +37,9 @@ public class Parser {
      */
     public void save() throws IOException{
         try{
-            Gson gson = new Gson();
-            String output = gson.toJson(loadData);
-            FileWriter myWriter = new FileWriter("./data/output.json");
-            myWriter.write(output);
+            Writer writer = new FileWriter("./data/output.json");;
+            new Gson().toJson(loadData, writer);
+            writer.close();
         }catch(IllegalStateException | IOException | JsonSyntaxException exception){
             exit(1);
         }

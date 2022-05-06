@@ -10,7 +10,7 @@ import java.util.List;
 public class JSClass {
     private String abs;
     private String name;
-    private final List<String> attr = new ArrayList<>();
+    private final List<JSAttr> attributes = new ArrayList<>();
 
     /**
      * Constructor of class.
@@ -18,10 +18,10 @@ public class JSClass {
      * @param name name of class.
      * @param attr attributes of class.
      */
-    public JSClass(String abs, String name, List<String> attr) {
+    public JSClass(String abs, String name, List<JSAttr> attr) {
         this.abs = abs;
         this.name = name;
-        this.attr.addAll(attr);
+        this.attributes.addAll(attr);
     }
 
     /**
@@ -44,8 +44,8 @@ public class JSClass {
      * Getter for list of attributes.
      * @return list of attrubutes.
      */
-    public List<String> getAttr() {
-        return attr;
+    public List<JSAttr> getAttr() {
+        return attributes;
     }
 
     /**
@@ -68,15 +68,15 @@ public class JSClass {
      * Add new attribute to list.
      * @param attr new attribute.
      */
-    public void addAttr(String attr) {
-        this.attr.add(attr);
+    public void addAttr(JSAttr attr) {
+        this.attributes.add(attr);
     }
 
     /**
      * Remove attribute from list.
      * @param attr attribute that will be removed.
      */
-    public void rmAttr(String attr) {
-        this.attr.remove(attr);
+    public void rmAttr(JSAttr attr) {
+        this.attributes.remove(attr);
     }
 }

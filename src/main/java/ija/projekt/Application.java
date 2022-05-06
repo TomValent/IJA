@@ -30,18 +30,19 @@ public class Application extends javafx.application.Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         parse();
         launch();
     }
 
-    public static void parse(){
+    public static void parse() throws IOException {
         Parser input = new Parser();
         try{
             input.parse("./data/example.json");
         }catch(IOException e){
             System.err.println(e);
         }
+        input.save();
     }
 
 
