@@ -1,5 +1,6 @@
 package ija.projekt;
 
+import ija.projekt.uml.UMLClass;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -8,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
+    static Parser input;
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -36,7 +38,7 @@ public class Application extends javafx.application.Application {
     }
 
     public static void parse() throws IOException {
-        Parser input = new Parser();
+        input = new Parser();
         try{
             input.parse("./data/example.json");
         }catch(IOException e){

@@ -15,10 +15,10 @@ public class GeneralizationSpecification extends UMLClassRelationship{
     private ArrayList<UMLClass> children = new ArrayList<UMLClass>();
     private int gen_or_spec; // 0 - generalization, 1 - specification
     private UMLClass parent;
-    public GeneralizationSpecification(String name, UMLClass parent, int typ) {
+    public GeneralizationSpecification(String name, UMLClass parent, int type) {
         super(name);
         this.parent = parent;
-        this.gen_or_spec = typ;
+        this.gen_or_spec = type;
     }
 
     public boolean addChild(UMLClass oneclass){

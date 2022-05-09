@@ -31,6 +31,6 @@ public class UMLAttribute extends Element {
      */
     @Override
     public java.lang.String toString() {
-        return name + ":" + classifier;
+        return name + ":" + classifier.name;
     }
 }
