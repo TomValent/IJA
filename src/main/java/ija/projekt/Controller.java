@@ -1,5 +1,6 @@
 package ija.projekt;
 
+import ija.projekt.uml.Association;
 import ija.projekt.uml.UMLAttribute;
 import ija.projekt.uml.UMLClass;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
@@ -29,7 +31,6 @@ import static ija.projekt.Parser.classDiagram;
  */
 public class Controller {
 
-    ObservableList list = FXCollections.observableArrayList();
     @FXML
     Pane class_pane;
 
@@ -46,9 +47,8 @@ public class Controller {
             name.setFont(Font.font(15));
             name.setText(classes.getName());
             for(UMLAttribute attribute : classes.getAttributes()){
-                list.add(attribute.toString());
+                new_class.getItems().add(attribute.toString());
             }
-            new_class.getItems().addAll(list);
 
             VBox container = new VBox();
             container.getChildren().addAll(name, new_class);
@@ -63,8 +63,8 @@ public class Controller {
                 y += 140;
                 x = 10;
             }
-
         }
+
     }
     /*
 
