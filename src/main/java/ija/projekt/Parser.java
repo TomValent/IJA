@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.security.KeyException;
 
 import ija.projekt.js.*;
 import ija.projekt.uml.*;
@@ -23,17 +24,19 @@ public class Parser {
     private InOut stashData;
 
     static ClassDiagram classDiagram;
+    static SequenceDiagram sequenceDiagram;
     /**
      * @param input string with a path to input file.
      * @throws IOException when can't open file or json is invalid.
      */
-    public void parse(String input) throws IOException {
+    public void parse(String input) throws IOException, KeyException {
         try {
             Gson gson = new Gson();
             loadData = gson.fromJson(new FileReader(input), InOut.class);
         }catch(IllegalStateException | JsonSyntaxException exception){
             exit(1);
         }
+
         classDiagram = new ClassDiagram("loadData.getName()");
         for (JSClass new_class : loadData.getClasses()) {
             UMLClass created_class = classDiagram.createClass(new_class.getName());
@@ -56,6 +59,19 @@ public class Parser {
             GeneralizationSpecification created_genspec = classDiagram.createGenSpec("genspec", classDiagram.findClass(new_genspec.getParentClass()), Integer.valueOf(new_genspec.getType()));
             for (JSChild new_child : new_genspec.getChildClasses()){
                 created_genspec.addChild(classDiagram.findClass(new_child.getchild()));
+            }
+        }
+//--------------------------------------------------------------------
+        sequenceDiagram = new SequenceDiagram(loadData.getName());
+        for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
+            sequenceDiagram.addQuaestor(quaestorName.getName());
+        }
+
+        for (JSMessage request : loadData.getMessages()) {
+
+            sequenceDiagram.getQ(request.getSender()).addObject(request.getName(), sequenceDiagram.getQ(request.getReceiver()).addObject());
+            for(LifelineObject obj : sequenceDiagram.getQ(request.getSender()).getObjects()){
+                obj.setTransmittion(request.getTransmition().equals("true"));
             }
         }
     }

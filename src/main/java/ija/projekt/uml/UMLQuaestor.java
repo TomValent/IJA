@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class UMLQuaestor extends UMLClassifier {
     private final List<LifelineObject> objs = new ArrayList<>();
+    private int x;
 
     /**
      * Constructor of quaestor.
@@ -18,11 +19,21 @@ public class UMLQuaestor extends UMLClassifier {
         super(name);
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     /**
      * add new life-line object to quaestors life-line.
      */
-    public void addObject() {
-        objs.add(new LifelineObject());
+    public LifelineObject addObject() {
+        var newObj = new LifelineObject();
+        objs.add(newObj);
+        return newObj;
+    }
+
+    public List<LifelineObject> getObjects() {
+        return this.objs;
     }
 
     /**
@@ -40,7 +51,7 @@ public class UMLQuaestor extends UMLClassifier {
     /**
      * Getter for list of life-line object on index.
      * @param index index of object.
-     * @return
+     * @return object
      */
     public LifelineObject getObject(int index) {
         return objs.get(index);
@@ -68,10 +79,18 @@ public class UMLQuaestor extends UMLClassifier {
 
     /**
      * Cancel linking between 2 objects.
-     * @param desc description of relationship.
-     * @param index ondex of object.
+     * @param target message what will be removed.
      */
-    public void unlink(String desc, int index) {
-        objs.get(index).unlink(desc);
+    public void unlink(LifelineObject target) {
+        objs.remove(target);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
 }

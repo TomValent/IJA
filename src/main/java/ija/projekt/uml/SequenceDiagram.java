@@ -3,7 +3,6 @@ package ija.projekt.uml;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -57,12 +56,11 @@ public class SequenceDiagram extends Element {
 
     /**
      * Remove request from diagram.
-     * @param desc description of request.
      * @param index index of request.
      * @param target target quaestor.
      */
-    public void removeRequest(String desc, int index, UMLQuaestor target) {
-        target.unlink(desc, index);
+    public void removeRequest(int index, UMLQuaestor target) {
+        target.unlink(target.getObject(index));
     }
 
     /**
@@ -81,10 +79,15 @@ public class SequenceDiagram extends Element {
      * @throws KeyException quaestor does not exist.
      */
     public UMLQuaestor getQ(String name) throws KeyException {
-        var tmp = quaestors.stream().filter(x -> Objects.equals(x.getName(), name));
-        if(tmp.findAny().isEmpty()){
-            throw new KeyException("Given name not in list.");
+        for(UMLQuaestor tmp : quaestors){
+            if(tmp.getName().equals(name)){
+                return tmp;
+            }
         }
-        return (UMLQuaestor) tmp.toArray()[0];
+        throw new KeyException("Given name not in list.");
+    }
+
+    public List<UMLQuaestor> getAllQuaestors(){
+        return this.quaestors;
     }
 }
