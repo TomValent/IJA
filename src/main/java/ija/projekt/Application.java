@@ -13,7 +13,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("main-screen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 1500, 800);
         stage.setTitle("DiagramEditor");
         stage.setScene(scene);
         stage.show();

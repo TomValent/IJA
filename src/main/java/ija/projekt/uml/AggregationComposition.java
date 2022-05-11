@@ -18,4 +18,16 @@ public class AggregationComposition extends UMLClassRelationship{
         this.child_cardinality = child_cardinality;
         this.type = type;
     }
+    public UMLClass getParent() {
+        return this.parent;
+    }
+    public UMLClass getChild() {
+        return this.child;
+    }
+    public String getChildCardinality() {
+        return this.child_cardinality;
+    }
+    public int getType() {
+        return this.type;
+    }
 }

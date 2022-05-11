@@ -77,6 +77,8 @@ public class Association extends UMLClassRelationship{
         }
         return false;
     }
-
+    public Map<UMLClass, ArrayList<String>> getClassCardinality() {
+        return Collections.unmodifiableMap(class_cardinality);
+    }
 
 }

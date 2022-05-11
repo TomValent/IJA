@@ -2,6 +2,7 @@ package ija.projekt;
 
 import ija.projekt.js.JSMessage;
 import ija.projekt.uml.*;
+import ija.projekt.GUI_Creator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,38 +39,17 @@ public class Controller {
 
     public void initialize() throws IOException, KeyException {
         String cssLayout = "-fx-border-color: black;\n" +
-                "-fx-border-insets: 5;\n" +
+                "-fx-border-insets: 0;\n" +
                 "-fx-border-width: 1;\n";
 
-        int x = 10;
-        int y = 10;
-        for (UMLClass classes : classDiagram.getClasses()){
-            ListView<Object> new_class = new ListView<>();
-            Label name = new Label();
-            name.setFont(Font.font(15));
-            name.setText(classes.getName());
-            for(UMLAttribute attribute : classes.getAttributes()){
-                list.add(attribute.toString());
-            }
-            new_class.getItems().addAll(list);
-
-            VBox container = new VBox();
-            container.getChildren().addAll(name, new_class);
-            container.setAlignment(Pos.CENTER);
-            container.setStyle(cssLayout);
-            container.setPrefSize(200, 100);
-
-            class_pane.getChildren().add(container);
-            container.relocate(x,y);
-            x += 240;
-            if (x > 400){
-                y += 140;
-                x = 10;
-            }
-        }
+        GUI_Creator gui_creator = new GUI_Creator();
+        class_pane = gui_creator.createClasses(class_pane);
+        class_pane = gui_creator.createAssociations(class_pane);
+        class_pane = gui_creator.createGenspecs(class_pane);
+        class_pane = gui_creator.createAggrComps(class_pane);
         //--------------------------------------------------------------
-        x = 10;
-        y = 20;
+        int x = 10;
+        int y = 20;
 
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             ListView<Object> newQ = new ListView<>();

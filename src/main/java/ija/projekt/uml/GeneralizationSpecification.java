@@ -1,9 +1,6 @@
 package ija.projekt.uml;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Magdalena Bellayova
@@ -36,6 +33,14 @@ public class GeneralizationSpecification extends UMLClassRelationship{
         this.children.remove(oneclass);
         return true;
     }
-
+    public List<UMLClass> getChildren() {
+        return Collections.unmodifiableList(children);
+    }
+    public UMLClass getParent() {
+        return this.parent;
+    }
+    public int getType() {
+        return this.gen_or_spec;
+    }
 
 }
