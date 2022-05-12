@@ -49,7 +49,7 @@ public class Controller {
         class_pane = gui_creator.createAggrComps(class_pane);
         //--------------------------------------------------------------
         int x = 10;
-        int y = 20;
+        int y = 30;
 
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             ListView<Object> newQ = new ListView<>();
@@ -64,15 +64,12 @@ public class Controller {
             containerSeq.getChildren().addAll(nameSeq, newQ);
             containerSeq.setAlignment(Pos.CENTER);
             containerSeq.setStyle(cssLayout);
-            containerSeq.setPrefSize(90, 30);
+            containerSeq.setPrefSize(90, 20);
 
             containerSeq.setAlignment(Pos.TOP_CENTER);
-            containerSeq.setStyle(cssLayout);
-
-            Line line = new Line(x+45, 48, x+45, 700);
+            Line line = new Line(x+45, 52, x+45, 700);
 
             sequenceDiagram.getQ(kvestor.getName()).setX(x+45);     //ulozim si kde je vykresleny
-
 
             seq_pane.getChildren().add(containerSeq);
             seq_pane.getChildren().add(line);
@@ -87,17 +84,13 @@ public class Controller {
         int n = 1;
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             for(LifelineObject message : kvestor.getObjects()){
-                if(message.getTo().contains(message)){      //does not work - receiver of message cannot make arrow
-                    message.setX2(kvestor);
-                    continue;
-                }
-                message.setX1(kvestor);     //sender
+
                 Arrow arrow = new Arrow();
 
-                arrow.setEndX(message.getX2());         //not correct probably
+                arrow.setEndX(message.getTarget().getX());      //receiver
                 arrow.setEndY((n)*20+90);
 
-                arrow.setStartX(message.getX1());
+                arrow.setStartX(kvestor.getX());                //sender
                 arrow.setStartY((n++)*20+90);
                 seq_pane.getChildren().add(arrow);
             }

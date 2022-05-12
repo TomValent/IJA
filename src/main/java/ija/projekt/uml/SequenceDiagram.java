@@ -35,26 +35,6 @@ public class SequenceDiagram extends Element {
     }
 
     /**
-     * Add new object to a quaestor.
-     * @param target target quaestor.
-     */
-    public void makeObject(UMLQuaestor target){
-        target.addObject();
-    }
-
-    /**
-     * Add new request to diagram and link 2 quaestors.
-     * @param from where is the arrow (request) comming from.
-     * @param indexFrom index of object of "from" quaestor.
-     * @param to where is the arrow (request) going to.
-     * @param indexTo index of object "to" quaestor.
-     * @param desc description of request.
-     */
-    public void addRequest(UMLQuaestor from, int indexFrom, UMLQuaestor to, int indexTo, java.lang.String desc) {
-        from.addLink(indexFrom, desc, to.getObject(indexTo));
-    }
-
-    /**
      * Remove request from diagram.
      * @param index index of request.
      * @param target target quaestor.
@@ -68,7 +48,10 @@ public class SequenceDiagram extends Element {
      * @param someone quaestor that will be removed.
      */
     public void removeQuaestor(UMLQuaestor someone) {
-        someone.destroyObjs();
+        for (var q: quaestors
+             ) {
+            q.getObjects().removeIf(x -> x.getTarget().equals(someone));
+        }
         quaestors.remove(someone);
     }
 

@@ -23,29 +23,18 @@ public class UMLQuaestor extends UMLClassifier {
         return this.name;
     }
 
-    /**
-     * add new life-line object to quaestors life-line.
-     */
-    public LifelineObject addObject() {
-        var newObj = new LifelineObject();
-        objs.add(newObj);
-        return newObj;
+    public UMLQuaestor addLink(UMLQuaestor target){
+        objs.add(new LifelineObject(target, false));
+        return this;
+    }
+
+    public UMLQuaestor addLink(UMLQuaestor target, boolean trans){
+        objs.add(new LifelineObject(target, trans));
+        return this;
     }
 
     public List<LifelineObject> getObjects() {
         return this.objs;
-    }
-
-    /**
-     * Add new life-line object to quaestros life-line
-     * with description and targetted quaestor.
-     * @param desc description of relationship.
-     * @param target target quaestor to link.
-     */
-    public void addObject(String desc, LifelineObject target) {
-        LifelineObject newObj = new LifelineObject();
-        newObj.linkTo(desc, target);
-        objs.add(newObj);
     }
 
     /**
@@ -57,25 +46,6 @@ public class UMLQuaestor extends UMLClassifier {
         return objs.get(index);
     }
 
-    /**
-     * Add link between 2 Quaestors.
-     * @param index index of object.
-     * @param desc description of relationship.
-     * @param target target quaestor.
-     */
-    public void addLink(int index, String desc, LifelineObject target) {
-        objs.get(index).linkTo(desc, target);
-    }
-
-    /**
-     * Destroy all objects in quaestors life-line.
-     */
-    public void destroyObjs() {
-        for (var obj : objs) {
-            obj.unlinkAll();
-        }
-        objs.clear();
-    }
 
     /**
      * Cancel linking between 2 objects.

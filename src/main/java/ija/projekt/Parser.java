@@ -69,7 +69,7 @@ public class Parser {
 
         for (JSMessage request : loadData.getMessages()) {
 
-            sequenceDiagram.getQ(request.getSender()).addObject(request.getName(), sequenceDiagram.getQ(request.getReceiver()).addObject());
+            sequenceDiagram.getQ(request.getSender()).addLink(sequenceDiagram.getQ(request.getReceiver()));
             for(LifelineObject obj : sequenceDiagram.getQ(request.getSender()).getObjects()){
                 obj.setTransmittion(request.getTransmition().equals("true"));
             }

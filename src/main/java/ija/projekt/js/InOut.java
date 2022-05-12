@@ -14,6 +14,7 @@ public class InOut{
     private List<JSAssociation> association = new ArrayList<>();
     private List<JSAggrComp> agg_com = new ArrayList<>();
     private List<JSInheritance> gen_spe = new ArrayList<>();
+    private List<JSSequence> seq_dia = new ArrayList<>();
 
     /**
      * Konstructor of InOut class.
@@ -21,7 +22,7 @@ public class InOut{
      * @param classes list of classes.
      * @param messages list of messages.
      */
-    public void InOut(String name, List<JSClass> classes, List<JSMessage>  messages, List<JSAssociation> associations, List<JSAggrComp> aggr_comp, List<JSInheritance> inherit){
+    public InOut(String name, List<JSClass> classes, List<JSMessage>  messages, List<JSAssociation> associations, List<JSAggrComp> aggr_comp, List<JSInheritance> inherit){
         this.name = name;
         this.classes = classes;
         this.messages = messages;
@@ -164,5 +165,29 @@ public class InOut{
      */
     public void rmInherit(JSInheritance inherit) {
         this.gen_spe.remove(inherit);
+    }
+
+    /**
+     * Getter of sequence diagrams.
+     * @return all sequence diagrams.
+     */
+    public List<JSSequence> getSeq() {
+        return seq_dia;
+    }
+
+    /**
+     * Add new sequence diagram.
+     * @param seq new sequence diagram.
+     */
+    public void addSeq(JSSequence seq) {
+        this.seq_dia.add(seq);
+    }
+
+    /**
+     * Remove sequence diagram from list.
+     * @param seq sequence diagram that will be removed.
+     */
+    public void rmSeq(JSSequence seq) {
+        this.seq_dia.remove(seq);
     }
 }
