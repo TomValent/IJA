@@ -8,7 +8,8 @@ import java.util.List;
  * Class for storing json.
  */
 public class InOut{
-    private String name;
+    private String nameSeq;
+    private String nameClass;
     private List<JSClass> classes = new ArrayList<>();
     private List<JSMessage> messages = new ArrayList<>();
     private List<JSAssociation> association = new ArrayList<>();
@@ -18,33 +19,52 @@ public class InOut{
 
     /**
      * Konstructor of InOut class.
-     * @param name title of diagrams.
+     * @param nameSeq title of sequence diagram.
+     * @param nameClass title of class diagram.
      * @param classes list of classes.
      * @param messages list of messages.
      */
-    public InOut(String name, List<JSClass> classes, List<JSMessage>  messages, List<JSAssociation> associations, List<JSAggrComp> aggr_comp, List<JSInheritance> inherit){
-        this.name = name;
+    public InOut(String nameSeq, String nameClass, List<JSClass> classes, List<JSMessage>  messages, List<JSAssociation> associations, List<JSAggrComp> aggr_comp, List<JSInheritance> inherit, List<JSSequence> seq_dia){
+        this.nameSeq = nameSeq;
+        this.nameClass = nameClass;
         this.classes = classes;
         this.messages = messages;
         this.association = associations;
         this.agg_com = aggr_comp;
         this.gen_spe = inherit;
+        this.seq_dia = seq_dia;
     }
 
     /**
      * Getter of the title.
      * @return title of diagrams.
      */
-    public String getName() {
-        return name;
+    public String getNameSeq() {
+        return nameSeq;
     }
 
     /**
      * Setter of the title.
      * @param name new title.
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setNameSeq(String name) {
+        this.nameSeq = name;
+    }
+
+    /**
+     * Getter of the title.
+     * @return title of diagrams.
+     */
+    public String getNameClass() {
+        return nameClass;
+    }
+
+    /**
+     * Setter of the title.
+     * @param name new title.
+     */
+    public void setNameClass(String name) {
+        this.nameClass = name;
     }
 
     /**

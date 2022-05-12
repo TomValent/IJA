@@ -62,7 +62,7 @@ public class Parser {
             }
         }
 //--------------------------------------------------------------------
-        sequenceDiagram = new SequenceDiagram(loadData.getName());
+        sequenceDiagram = new SequenceDiagram(loadData.getNameSeq());
         for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
             sequenceDiagram.addQuaestor(quaestorName.getName());
         }
