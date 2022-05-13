@@ -43,7 +43,6 @@ public class Application extends javafx.application.Application {
         }catch(KeyException | IllegalStateException e){
             System.err.println(e);
         }
-        input.save();
     }
 
 

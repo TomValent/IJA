@@ -15,14 +15,14 @@
    <center>
       <Pane id="class_pane" fx:id="class_pane" prefHeight="373.0" prefWidth="252.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="16.0" prefWidth="127.0" text="Class Diagram" />
+            <Label prefHeight="16.0" prefWidth="141.0" text="Class Diagram" fx:id="labelClass"/>
          </children>
       </Pane>
    </center>
    <left>
       <Pane fx:id="seq_pane" prefHeight="373.0" prefWidth="615.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="16.0" prefWidth="141.0" text="Sequence Diagrams" />
+            <Label prefHeight="16.0" prefWidth="141.0" text="Sequence Diagrams" fx:id="labelSeq"/>
          </children>
       </Pane>
    </left>
@@ -33,17 +33,18 @@
                <items>
                   <Menu mnemonicParsing="false" text="New">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Class Diagram" />
-                        <MenuItem mnemonicParsing="false" text="Sequence Diagram" />
+                        <MenuItem mnemonicParsing="false" text="Class Diagram" fx:id="newClassDiagram" onAction="#newClassD"/>
+                        <MenuItem mnemonicParsing="false" text="Sequence Diagram" fx:id="newSeqDiagram" onAction="#newSeqD"/>
                     </items>
                   </Menu>
+                   <MenuItem text="Save" fx:id="save" onAction="#saveToJson"/>
                   <SeparatorMenuItem mnemonicParsing="false" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem mnemonicParsing="false" text="Undo" />
+                <MenuItem mnemonicParsing="false" text="Delete" onAction="#rmBoth"/>
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="View">

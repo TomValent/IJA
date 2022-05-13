@@ -3,10 +3,7 @@ package ija.projekt;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.security.KeyException;
 
 import ija.projekt.js.*;
@@ -20,7 +17,7 @@ import static java.lang.System.exit;
  * Open input/output file and load json to class/file.
  */
 public class Parser {
-    private InOut loadData;
+    public static InOut loadData;
     private InOut stashData;
 
     static ClassDiagram classDiagram;
@@ -37,7 +34,7 @@ public class Parser {
             exit(1);
         }
 
-        classDiagram = new ClassDiagram("loadData.getName()");
+        classDiagram = new ClassDiagram(loadData.getNameClass());
         for (JSClass new_class : loadData.getClasses()) {
             UMLClass created_class = classDiagram.createClass(new_class.getName());
             created_class.setAbstract(Boolean.valueOf(new_class.getAbs()));
@@ -79,9 +76,19 @@ public class Parser {
     /**
      * @throws IOException when writer can't write to file or can't find the directory.
      */
-    public void save() throws IOException{
+    public void save() throws IOException, InterruptedException {
+        var filename = "output";
         try{
-            Writer writer = new FileWriter("./data/output.json");;
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/filename.txt"));
+            String line = bufferedReader.readLine();
+            if(line != null) {
+                filename = line;
+            }
+        }catch(IOException e){
+            exit(2);
+        }
+        try{
+            Writer writer = new FileWriter("./data/" + filename + ".json");;
             new Gson().toJson(loadData, writer);
             writer.close();
         }catch(IllegalStateException | IOException | JsonSyntaxException exception){

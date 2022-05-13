@@ -5,24 +5,33 @@ import ija.projekt.uml.*;
 import ija.projekt.GUI_Creator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.KeyException;
-import java.util.List;
-import java.util.Map;
 
-import static ija.projekt.Parser.classDiagram;
-import static ija.projekt.Parser.sequenceDiagram;
+import static ija.projekt.Parser.*;
 
 /**
  * @author Magdalena Bellayova
@@ -30,12 +39,17 @@ import static ija.projekt.Parser.sequenceDiagram;
  * Will include methods for GUI
  */
 public class Controller {
-
     ObservableList<Object> list = FXCollections.observableArrayList();
     @FXML
     Pane class_pane;
     @FXML
     Pane seq_pane;
+    @FXML
+    Label labelClass;
+    @FXML
+    Label labelSeq;
+
+    public boolean isOn = false;
 
     public void initialize() throws IOException, KeyException {
         String cssLayout = "-fx-border-color: black;\n" +
@@ -43,6 +57,7 @@ public class Controller {
                 "-fx-border-width: 1;\n";
 
         GUI_Creator gui_creator = new GUI_Creator();
+        labelClass.setText(classDiagram.getName());
         class_pane = gui_creator.createClasses(class_pane);
         class_pane = gui_creator.createAssociations(class_pane);
         class_pane = gui_creator.createGenspecs(class_pane);
@@ -51,6 +66,7 @@ public class Controller {
         int x = 10;
         int y = 30;
 
+        labelSeq.setText(sequenceDiagram.getName());
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             ListView<Object> newQ = new ListView<>();
             Label nameSeq = new Label();
@@ -97,20 +113,23 @@ public class Controller {
         }
     }
 
-
-    /*
-    public void initialize() throws IOException {
-        ListView new_class = new ListView<>();
-        class_pane.getChildren().add(new_class);
-                TitledPane new_class = FXMLLoader.load(getClass().getResource("class.fxml"));
-        class_pane.getChildren().add(new_class);
-        List<UMLClass> classes = input.classDiagram.getClasses();
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("class.fxml"));
-        Node new_class  =  loader.load();
-        ClassController new_controller = loader.getController();
-        new_controller.setText(classes.get(0));
-        class_pane.getChildren().add(new_class);
+    public void newSeqD(){              //vymaze cast pre sekvencny diagram aby sa dal kreslit novy
+        seq_pane.getChildren().clear();
     }
-     */
 
+    public void newClassD(){              //vymaze cast pre class diagram aby sa dal kreslit novy
+        class_pane.getChildren().clear();
+    }
+
+    public void rmBoth(){
+        seq_pane.getChildren().clear();
+        class_pane.getChildren().clear();
+        loadData.removeEverything();
+    }
+
+    public void saveToJson() throws IOException, InterruptedException {
+        new SaveStage(this);
+        Parser output = new Parser();
+        output.save();
+    }
 }

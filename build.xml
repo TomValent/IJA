@@ -35,7 +35,7 @@
     </target>
 
 
-    <target name="run">
+    <target name="run" depends="compile">
         <java jar="dest/IJAProjekt.jar" fork="true">
             <modulepath path="lib/lib"/>
             <jvmarg line="--add-modules javafx.controls,javafx.fxml,com.google.gson"/>
