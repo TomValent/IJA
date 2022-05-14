@@ -15,7 +15,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -25,12 +27,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.KeyException;
 
+import static ija.projekt.Application.globalStage;
 import static ija.projekt.Parser.*;
 
 /**
@@ -48,8 +48,9 @@ public class Controller {
     Label labelClass;
     @FXML
     Label labelSeq;
+    @FXML
 
-    public boolean isOn = false;
+    private String filename;
 
     public void initialize() throws IOException, KeyException {
         String cssLayout = "-fx-border-color: black;\n" +
@@ -127,9 +128,21 @@ public class Controller {
         loadData.removeEverything();
     }
 
-    public void saveToJson() throws IOException, InterruptedException {
-        new SaveStage(this);
+    public void saveToJson(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("./data"));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("json files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Save");
+
+        File savingFile = fileChooser.showSaveDialog(globalStage);
+        filename = savingFile.getName();
+
         Parser output = new Parser();
-        output.save();
+        try {
+            output.save(savingFile.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

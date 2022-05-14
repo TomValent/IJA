@@ -76,17 +76,7 @@ public class Parser {
     /**
      * @throws IOException when writer can't write to file or can't find the directory.
      */
-    public void save() throws IOException, InterruptedException {
-        var filename = "output";
-        try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("./data/filename.txt"));
-            String line = bufferedReader.readLine();
-            if(line != null) {
-                filename = line;
-            }
-        }catch(IOException e){
-            exit(2);
-        }
+    public void save(String filename) throws IOException {
         try{
             Writer writer = new FileWriter("./data/" + filename + ".json");;
             new Gson().toJson(loadData, writer);

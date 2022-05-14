@@ -17,7 +17,7 @@ public class SaveStage {
     Button submit;
     Button cancel;
     GridPane gridPane;
-    private String file;
+    public String file;
     TextField textField;
     Controller cont;
 
@@ -54,25 +54,17 @@ public class SaveStage {
 
     public void createBindings() {
         this.cancel.setOnAction(event -> {
-            this.cont.isOn = false;
             getFilename.close();
         });
 
         this.submit.setOnAction(event -> {
-            try {
-                FileWriter myWriter = new FileWriter("./data/filename.txt");
-                myWriter.write(textField.getText());
-                System.out.println(textField + "0");
-                myWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.cont.isOn = false;
+            System.out.println(textField + " setFile()");
+            this.file = textField.getText();
             getFilename.close();
         });
     }
 
-    public Stage getStage(){
-        return this.getFilename;
+    public String getFile(){
+        return this.file;
     }
 }
