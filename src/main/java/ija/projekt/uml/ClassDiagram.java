@@ -1,5 +1,8 @@
 package ija.projekt.uml;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +14,8 @@ import java.util.List;
 public class ClassDiagram extends Element {
     private final List<UMLClassifier> classifiers = new ArrayList<>();
 
-    private final List<UMLClass> classes= new ArrayList<>();
+
+    private ObservableList<UMLClass> classes = FXCollections.observableArrayList();
     private final List<Association> associations = new ArrayList<>();
     private final List<AggregationComposition> aggrcomps = new ArrayList<>();
     private final List<GeneralizationSpecification> genspecs = new ArrayList<>();
@@ -94,7 +98,7 @@ public class ClassDiagram extends Element {
     }
 
     public List<UMLClass> getClasses() {
-        return Collections.unmodifiableList(classes);
+        return FXCollections.unmodifiableObservableList(classes);
     }
     public List<Association> getAssociations() {
         return Collections.unmodifiableList(associations);

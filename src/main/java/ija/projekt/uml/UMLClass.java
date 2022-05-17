@@ -1,5 +1,9 @@
 package ija.projekt.uml;
 
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +13,9 @@ import java.util.List;
  * Class represents class in class diagram.
  */
 public class UMLClass extends UMLClassifier {
-    private final List<UMLAttribute> attributes = new ArrayList<>();
+    private ObservableList<UMLAttribute> attributes = FXCollections.observableArrayList();
+    private ObservableList<UMLOperation> methods = FXCollections.observableArrayList();
+    private List<ChangeListener<String>> name_listeners = new ArrayList<>();
     private boolean abs;
 
     /**
@@ -50,7 +56,7 @@ public class UMLClass extends UMLClassifier {
      * @return list of attributes.
      */
     public List<UMLAttribute> getAttributes() {
-        return Collections.unmodifiableList(attributes);
+        return FXCollections.unmodifiableObservableList(attributes);
     }
 
     /**
@@ -83,5 +89,27 @@ public class UMLClass extends UMLClassifier {
      */
     public void removeAttr(UMLAttribute attr) {
         attributes.remove(attr);
+    }
+
+    public void addMethod(UMLOperation method) {
+        this.methods.add(method);
+    }
+    public List<UMLOperation> getMethods() {
+        return FXCollections.unmodifiableObservableList(methods);
+    }
+    public void removeMethod(UMLOperation method) {
+        methods.remove(method);
+    }
+    public void addNameListener(ChangeListener<String> listener) {
+        if(name_listeners == null) {
+            name_listeners = new ArrayList<>();
+        }
+        name_listeners.add(listener);
+    }
+    public void rename(String name) {
+        for(ChangeListener<String> listener : name_listeners) {
+            listener.changed(null, null, name);
+        }
+        this.name = name;
     }
 }

@@ -1,11 +1,13 @@
 package ija.projekt;
 
 import ija.projekt.uml.*;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,16 +40,16 @@ public class GUI_Creator {
         int x = 20;
         int y = 20;
         for (UMLClass classes : classDiagram.getClasses()){
-            ListView<Object> new_class = new ListView<>();
+            ListView<UMLAttribute> attributes = new ListView<>();
             Label name = new Label();
             name.setFont(Font.font(15));
             name.setText(classes.getName());
             for(UMLAttribute attribute : classes.getAttributes()){
-                new_class.getItems().add(attribute.toString());
+                attributes.getItems().add(attribute);
             }
-
+            Separator separator = new Separator(Orientation.HORIZONTAL);
             VBox container = new VBox();
-            container.getChildren().addAll(name, new_class);
+            container.getChildren().addAll(name, attributes);
             container.setAlignment(Pos.CENTER);
             container.setStyle(cssLayout);
             container.setPrefSize(200, 100);
@@ -64,6 +66,7 @@ public class GUI_Creator {
         }
         return class_pane;
     }
+
     public Pane createAssociations(Pane class_pane){
         for( Association new_assoc : classDiagram.getAssociations()) {
             ArrayList<Double> coordination = new ArrayList<>();

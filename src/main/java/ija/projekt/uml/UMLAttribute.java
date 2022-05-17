@@ -6,15 +6,16 @@ package ija.projekt.uml;
  */
 public class UMLAttribute extends Element {
     public final UMLClassifier classifier;
-
+    private UMLAttributeModifier modifier;
     /**
      * Contructor for attributes.
      * @param name name of attribute.
      * @param classifier type of attribute.
      */
-    public UMLAttribute(String name, UMLClassifier classifier) {
+    public UMLAttribute(String name, UMLClassifier classifier, UMLAttributeModifier modifier) {
         super(name);
         this.classifier = classifier;
+        this.modifier = modifier;
     }
 
     /**
@@ -31,6 +32,10 @@ public class UMLAttribute extends Element {
      */
     @Override
     public java.lang.String toString() {
-        return name + ":" + classifier.name;
+        return modifier.getSymbol() + " " + name + ":" + classifier.name;
+    }
+
+    public UMLAttributeModifier getModifier() {
+        return modifier;
     }
 }

@@ -16,7 +16,7 @@ public class UMLOperation extends UMLAttribute{
      * @param classifier type of operation.
      */
     public UMLOperation(java.lang.String name, UMLClassifier classifier) {
-        super(name,classifier);
+        super(name,classifier,UMLAttributeModifier.PUBLIC);
     }
 
     /**
@@ -73,5 +73,10 @@ public class UMLOperation extends UMLAttribute{
      */
     public void removeOperation(UMLAttribute arg) {
         arguments.remove(arg);
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return name + ":" + classifier.name;
     }
 }

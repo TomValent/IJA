@@ -40,7 +40,7 @@ public class Parser {
             created_class.setAbstract(Boolean.valueOf(new_class.getAbs()));
             for (JSAttr new_attribute : new_class.getAttr()) {
                 UMLClassifier new_classifier = classDiagram.classifierForName(new_attribute.getType());
-                UMLAttribute created_attribute = new UMLAttribute(new_attribute.getAttr(), new_classifier);
+                UMLAttribute created_attribute = new UMLAttribute(new_attribute.getAttr(), new_classifier, UMLAttributeModifier.PRIVATE);
                 created_class.addAttribute(created_attribute);
             }
         }

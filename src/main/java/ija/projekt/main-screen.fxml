@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ija.projekt.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ija.projekt.Controller">
    <center>
       <Pane id="class_pane" fx:id="class_pane" prefHeight="373.0" prefWidth="252.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="16.0" prefWidth="141.0" text="Class Diagram" fx:id="labelClass"/>
+            <Label fx:id="labelClass" prefHeight="16.0" prefWidth="141.0" text="Class Diagram" />
          </children>
       </Pane>
    </center>
    <left>
       <Pane fx:id="seq_pane" prefHeight="373.0" prefWidth="615.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="16.0" prefWidth="141.0" text="Sequence Diagrams" fx:id="labelSeq"/>
+            <Label fx:id="labelSeq" prefHeight="16.0" prefWidth="141.0" text="Sequence Diagrams" />
          </children>
       </Pane>
    </left>
    <top>
-      <MenuBar prefHeight="24.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="0.0" prefWidth="438.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
                <items>
                   <Menu mnemonicParsing="false" text="New">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Class Diagram" fx:id="newClassDiagram" onAction="#newClassD"/>
-                        <MenuItem mnemonicParsing="false" text="Sequence Diagram" fx:id="newSeqDiagram" onAction="#newSeqD"/>
+                        <MenuItem fx:id="newClassDiagram" mnemonicParsing="false" onAction="#newClassD" text="Class Diagram" />
+                        <MenuItem fx:id="newSeqDiagram" mnemonicParsing="false" onAction="#newSeqD" text="Sequence Diagram" />
                     </items>
                   </Menu>
-                   <MenuItem text="Save" fx:id="save" onAction="#saveToJson"/>
+                   <MenuItem fx:id="save" onAction="#saveToJson" text="Save" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
                 <MenuItem mnemonicParsing="false" text="Undo" />
-                <MenuItem mnemonicParsing="false" text="Delete" onAction="#rmBoth"/>
+                <MenuItem mnemonicParsing="false" onAction="#rmBoth" text="Delete" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="View">
@@ -57,12 +66,92 @@
       </MenuBar>
    </top>
    <right>
-      <VBox prefHeight="333.0" prefWidth="119.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="16.0" prefWidth="127.0" text="Toolbar" />
-            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="123.0" text="Class" />
-            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="130.0" text="Relationship" />
-         </children>
-      </VBox>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane animated="false" prefHeight="725.0" prefWidth="302.0" text="Class">
+               <content>
+                  <VBox prefHeight="700.0" prefWidth="320.0">
+                     <children>
+                        <HBox prefHeight="26.0" prefWidth="280.0">
+                           <children>
+                              <Label text="Name" />
+                              <TextField fx:id="tf_class_name" prefHeight="24.0" prefWidth="175.0" />
+                              <Button fx:id="btn_save_class_name" mnemonicParsing="false" onAction="#saveClassName" prefHeight="24.0" prefWidth="64.0" text="Save" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="32.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_delete_class" mnemonicParsing="false" prefHeight="24.0" prefWidth="68.0" text="Delete" onAction="#deleteClass" />
+                              <Region prefHeight="32.0" prefWidth="104.0" />
+                              <Button fx:id="btn_create_class" mnemonicParsing="false" prefHeight="24.0" prefWidth="68.0" text="Create" onAction="#createClass" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="282.0" text="Attributes" />
+                        <ListView fx:id="lv_attributes" prefHeight="50.0" prefWidth="200.0" />
+                        <HBox prefHeight="20.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="23.0" prefWidth="64.0" text="Name" />
+                              <TextField fx:id="tf_attribute_name" prefHeight="24.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="23.0" prefWidth="64.0" text="Type" />
+                              <TextField fx:id="tf_attribute_type" prefHeight="24.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="23.0" prefWidth="64.0" text="Modifier" />
+                              <ChoiceBox fx:id="cb_attribute_modifier" prefHeight="24.0" prefWidth="111.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_attribute_delete" mnemonicParsing="false" onAction="#delete_attribute" prefHeight="24.0" prefWidth="73.0" text="Delete" />
+                              <Region prefHeight="34.0" prefWidth="139.0" />
+                              <Button fx:id="btn_attribute_add" mnemonicParsing="false" onAction="#add_attribute" prefHeight="24.0" prefWidth="69.0" text="Add" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="282.0" text="Methods" />
+                        <ListView fx:id="lv_methods" prefHeight="50.0" prefWidth="200.0" />
+                        <HBox prefHeight="20.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="23.0" prefWidth="64.0" text="Name" />
+                              <TextField fx:id="tf_method_name" prefHeight="24.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="23.0" prefWidth="64.0" text="Type" />
+                              <TextField fx:id="tf_method_type" prefHeight="24.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_method_delete" mnemonicParsing="false" onAction="#delete_method" prefHeight="24.0" prefWidth="73.0" text="Delete" />
+                              <Region prefHeight="34.0" prefWidth="139.0" />
+                              <Button fx:id="btn_method_add" mnemonicParsing="false" onAction="#add_method" prefHeight="24.0" prefWidth="69.0" text="Add" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
    </right>
 </BorderPane>
