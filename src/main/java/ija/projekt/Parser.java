@@ -45,7 +45,6 @@ public class Parser {
             }
             for (JSMessage new_method : loadData.getMessages()) {
                 if (new_method.getSender().equals(created_class.getName())){
-                    System.out.println("equals");
                     UMLClassifier new_classifier = classDiagram.classifierForName(new_method.getType());
                     UMLOperation created_method = new UMLOperation(new_method.getName(), new_classifier);
                     created_class.addMethod(created_method);

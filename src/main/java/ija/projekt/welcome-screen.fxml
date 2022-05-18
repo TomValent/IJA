@@ -17,11 +17,10 @@
             </Label>
          </children>
       </AnchorPane>
-      <Text layoutX="104.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This is exampe of future layout for our application." textAlignment="CENTER" wrappingWidth="390.79345703125" />
-      <Text layoutX="61.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Up will be menu bar, wher we can start creating new diagrams, edit and change view according to which diagram we want to edit.. " textAlignment="CENTER" wrappingWidth="476.92138671875" />
-      <Text layoutX="74.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In centre will be main space for editing diagram and on the left can be diagrams that are based on the one that is edited. " textAlignment="CENTER" wrappingWidth="450.34326171875" />
-      <Text layoutX="210.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On the right will be toolbar." />
-      <Text layoutX="43.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This is not yet functional application, still in development. Layout can during development change." textAlignment="CENTER" wrappingWidth="513.3759765625">
+      <Text layoutX="104.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This is application for editing class and sequence diagram." textAlignment="CENTER" wrappingWidth="390.79345703125" />
+      <Text layoutX="61.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In center at left side we have place for sequence diagram and  at rigth side is place for class diagram." textAlignment="CENTER" wrappingWidth="476.92138671875" />
+      <Text layoutX="74.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="On right is toolbar for edditing class diagram." textAlignment="CENTER" wrappingWidth="450.34326171875" />
+      <Text layoutX="43.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enjoy our application." textAlignment="CENTER" wrappingWidth="513.3759765625">
          <font>
             <Font size="17.0" />
          </font>

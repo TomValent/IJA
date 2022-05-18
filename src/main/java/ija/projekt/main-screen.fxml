@@ -14,7 +14,6 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -204,9 +203,9 @@
                         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0" />
                         <HBox alignment="CENTER" prefHeight="35.0" prefWidth="280.0">
                            <children>
-                              <Button fx:id="btn_generalization_delete" mnemonicParsing="false" onAction="#delete_generalization"  prefHeight="24.0" prefWidth="74.0" text="Delete" />
+                              <Button fx:id="btn_generalization_delete" mnemonicParsing="false" onAction="#delete_generalization" prefHeight="24.0" prefWidth="74.0" text="Delete" />
                               <Region prefHeight="32.0" prefWidth="113.0" />
-                              <Button fx:id="btn_generalization_add" mnemonicParsing="false" onAction="#add_generalization"  prefWidth="74.0" text="Add" />
+                              <Button fx:id="btn_generalization_add" mnemonicParsing="false" onAction="#add_generalization" prefWidth="74.0" text="Add" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
@@ -240,20 +239,15 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="33.0" prefWidth="280.0">
                            <children>
-                              <Button fx:id="btn_aggrcomps_delete" mnemonicParsing="false" onAction="#delete_aggrcomp"  prefHeight="24.0" prefWidth="74.0" text="Delete" />
+                              <Button fx:id="btn_aggrcomps_delete" mnemonicParsing="false" onAction="#delete_aggrcomp" prefHeight="24.0" prefWidth="74.0" text="Delete" />
                               <Region prefHeight="29.0" prefWidth="113.0" />
-                              <Button fx:id="btn_aggrcomps_add" mnemonicParsing="false" onAction="#add_aggrcomp"  prefWidth="74.0" text="Add" />
+                              <Button fx:id="btn_aggrcomps_add" mnemonicParsing="false" onAction="#add_aggrcomp" prefWidth="74.0" text="Add" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
-          </TitledPane>
-          <TitledPane animated="false" text="untitled 3">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
           </TitledPane>
         </panes>
       </Accordion>
