@@ -43,4 +43,10 @@ public class GeneralizationSpecification extends UMLClassRelationship{
         return this.gen_or_spec;
     }
 
+    public String toString(){
+        UMLClass class1 = this.parent;
+        UMLClass class2 = this.children.get(0);
+        return class1.getName() + "<--" + class2.getName();
+    }
+
 }

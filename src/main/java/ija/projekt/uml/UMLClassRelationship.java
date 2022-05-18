@@ -9,7 +9,7 @@ import java.util.List;
  * Class for creeating relationships.
  */
 
-public class UMLClassRelationship extends UMLClassifier{
+public abstract class UMLClassRelationship extends UMLClassifier{
 
     private boolean isAbstract;
 

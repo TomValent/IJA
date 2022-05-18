@@ -1,5 +1,8 @@
 package ija.projekt.uml;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * @author Magdalena Bellayova
  * Class for creeating agregation relationship.
@@ -30,4 +33,16 @@ public class AggregationComposition extends UMLClassRelationship{
     public int getType() {
         return this.type;
     }
+    @Override
+    public String toString(){
+        UMLClass class1 = this.parent;
+        UMLClass class2 = this.child;
+        if(this.type == 0){
+            return "aggr" + " : " + class1.getName() + "<>--" + class2.getName();
+        }
+        else{
+            return "comp" + " : " + class1.getName() + "<>--" + class2.getName();
+        }
+    }
+
 }

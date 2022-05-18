@@ -5,6 +5,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,10 @@ import static java.lang.Math.*;
 
 public class GUI_Creator {
     private int type; // 0 - aggregation, 1 - composition, 2 - generalization, 3 - specification, 4 - association
+    public HashMap<Group, UMLClass> line_start_map = new HashMap<>();
+    public HashMap<Group, UMLClass> line_end_map = new HashMap<>();
+    public HashMap<UMLClass,Group> start_line_map = new HashMap<>();
+    public HashMap<UMLClass,Group> end_line_map = new HashMap<>();
     DraggableMaker draggableMaker = new DraggableMaker();
     public Pane createClasses(Pane class_pane){
         String cssLayout = "-fx-border-color: black;\n" +
@@ -67,119 +73,138 @@ public class GUI_Creator {
         return class_pane;
     }
 
-    public Pane createAssociations(Pane class_pane){
+    public Pane createAssociations(Pane class_pane, HashMap<UMLClass, VBox> class_container_map){
         for( Association new_assoc : classDiagram.getAssociations()) {
-            ArrayList<Double> coordination = new ArrayList<>();
+            ArrayList<VBox> containers = new ArrayList<>();
             ArrayList<String> cardinality = new ArrayList<>();
-            for (Map.Entry<UMLClass, ArrayList<String>> class_cardinality : new_assoc.getClassCardinality().entrySet()) {
+            for (Map.Entry<UMLClass, String> class_cardinality : new_assoc.getClassCardinality().entrySet()) {
                 for (Node n : class_pane.getChildren()) {
                     if (class_cardinality.getKey().getName().equals(n.getUserData())) {
-                        coordination.add(n.getLayoutX());
-                        coordination.add(n.getLayoutY());
-                        for(String value:class_cardinality.getValue()){
-                            cardinality.add(value);
-                        }
+                        containers.add(class_container_map.get(class_cardinality.getKey()));
+                        cardinality.add(class_cardinality.getValue());
                     }
                 }
             }
-            Double x1 = coordination.get(0);
-            Double y1 = coordination.get(1);
-            Double x2 = coordination.get(2);
-            Double y2 = coordination.get(3);
             String cardinality1 = cardinality.get(0);
             String cardinality2 = cardinality.get(1);
-            Group line = this.createLine(x1, y1, x2, y2, 4, cardinality1,cardinality2);
+            VBox start = containers.get(0);
+            VBox end = containers.get(1);
+            Group root = new Group();
+            Scene scene = new Scene(root);
+            root.getChildren().addAll(start,end);
+
+            root.applyCss();
+            root.layout();
+
+            Group line = this.createLine(start, end, 4, cardinality1,cardinality2);
+
             class_pane.getChildren().add(line);
+            class_pane.getChildren().remove(root);
+            class_pane.getChildren().addAll(start,end);
         }
         return class_pane;
     }
 
-    public Pane createGenspecs(Pane class_pane){
+    public Pane createGenspecs(Pane class_pane, HashMap<UMLClass, VBox> class_container_map){
         for( GeneralizationSpecification new_genspec : classDiagram.getGenspecs()) {
-            ArrayList<Double> coordination = new ArrayList<>();
+            ArrayList<VBox> containers = new ArrayList<>();
             for (Node n : class_pane.getChildren()) {
                 if (new_genspec.getParent().getName().equals(n.getUserData())) {
-                    coordination.add(n.getLayoutX());
-                    coordination.add(n.getLayoutY());
+                    containers.add(class_container_map.get(new_genspec.getParent()));
                 }
             }
             for (UMLClass child: new_genspec.getChildren()) {
                 for (Node n : class_pane.getChildren()) {
                     if (child.getName().equals(n.getUserData())) {
-                        coordination.add(n.getLayoutX());
-                        coordination.add(n.getLayoutY());
+                        containers.add(class_container_map.get(child));
                     }
                 }
             }
             int type = new_genspec.getType() + 2;
-            Double x1 = coordination.get(0);
-            Double y1 = coordination.get(1);
-            coordination.remove(0);
-            coordination.remove(0);
-            while (coordination.size()>0){
-                Double x2 = coordination.get(0);
-                Double y2 = coordination.get(1);
-                Group line = this.createLine(x1, y1, x2, y2,  type,"","");
+            VBox parent = containers.get(0);
+            containers.remove(0);
+            while (containers.size()>0){
+                VBox child = containers.get(0);
+                Group root = new Group();
+                Scene scene = new Scene(root);
+                root.getChildren().addAll(parent,child);
+
+                root.applyCss();
+                root.layout();
+
+                Group line = this.createLine(parent,child,  type,"","");
                 class_pane.getChildren().add(line);
-                coordination.remove(0);
-                coordination.remove(0);
+                class_pane.getChildren().remove(root);
+                class_pane.getChildren().addAll(parent,child);
+                containers.remove(0);
             }
         }
         return class_pane;
     }
 
-    public Pane createAggrComps(Pane class_pane){
+    public Pane createAggrComps(Pane class_pane, HashMap<UMLClass, VBox> class_container_map){
         for( AggregationComposition new_aggrcomp : classDiagram.getAggrcomps()) {
-            ArrayList<Double> coordination = new ArrayList<>();
+            ArrayList<VBox> containers = new ArrayList<>();
             String child_cardinality = "";
             for (Node n : class_pane.getChildren()) {
                 if (new_aggrcomp.getParent().getName().equals(n.getUserData()))  {
-                    coordination.add(n.getLayoutX());
-                    coordination.add(n.getLayoutY());
+                    containers.add(class_container_map.get(new_aggrcomp.getParent()));
                 }
             }
             for (Node n : class_pane.getChildren()) {
                 if (new_aggrcomp.getChild().getName().equals(n.getUserData()))  {
-                    coordination.add(n.getLayoutX());
-                    coordination.add(n.getLayoutY());
+                    containers.add(class_container_map.get(new_aggrcomp.getChild()));
                     child_cardinality = new_aggrcomp.getChildCardinality();
                 }
             }
             int type = new_aggrcomp.getType();
-            Double x1 = coordination.get(0);
-            Double y1 = coordination.get(1);
-            Double x2 = coordination.get(2);
-            Double y2 = coordination.get(3);
+            VBox parent = containers.get(0);
+            VBox child = containers.get(1);
+            Group root = new Group();
+            Scene scene = new Scene(root);
+            root.getChildren().addAll(parent,child);
 
-            Group line = this.createLine(x1, y1, x2, y2, type,child_cardinality, "");
+            root.applyCss();
+            root.layout();
+            Group line = this.createLine(parent,child, type,child_cardinality, "");
             class_pane.getChildren().add(line);
+            class_pane.getChildren().remove(root);
+            class_pane.getChildren().addAll(parent,child);
         }
         return class_pane;
     }
-    public Group createLine(Double x1, Double y1, Double x2, Double y2, int type, String cardinality1, String cardinality2){
+    public Group createLine(VBox start, VBox end , int type, String cardinality1, String cardinality2){
         Line line = new Line();
-        double height = 100;
-        double width = 200;
+
+        double height1 = start.getHeight();
+        double width1 = start.getPrefWidth();
+        double height2 = end.getHeight();
+        double width2 = end.getPrefWidth();
+
+        double x1 = start.getLayoutX();
+        double y1 = start.getLayoutY();
+        double x2 = end.getLayoutX();
+        double y2 = end.getLayoutY();
 
 
         double help_x1 = x1;
         double help_y1 = y1;
         double help_x2 = x2;
         double help_y2 = y2;
-        x2 +=  width/2;
-        y2 += height/2;
-        double x11 = x1+ width/2;
-        double y11 =y1+height/2;
+        x2 +=  width2/2;
+        y2 += height2/2;
+        double x11 = x1+ width1/2;
+        double y11 =y1+height1/2;
         double x22 =x2;
         double y22 = y2;
 
         double x3 = x1;
         double y3 = y1;
-        double x4 = x1+width;
+        double x4 = x1+width1;
         double y4= y1;
 
-        double help_x = x1 +  width/2;
-        double help_y = y1 + height/2;
+        double help_x = x1 +  width1/2;
+        double help_y = y1 + height1/2;
         double point1_x=0;
         double point1_y=0;
         double point2_x=0;
@@ -196,9 +221,9 @@ public class GUI_Creator {
         }
 
         x3 = x1;
-        y3 = y1 + height;
-        x4 = x1 + width;
-        y4= y1 + height;
+        y3 = y1 + height1;
+        x4 = x1 + width1;
+        y4= y1 + height1;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -209,7 +234,7 @@ public class GUI_Creator {
         x3 = x1;
         y3 = y1;
         x4 = x1;
-        y4= y1 +height;
+        y4= y1 +height1;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -217,10 +242,10 @@ public class GUI_Creator {
             point3_y = ((y3-y4)*(x11*y22-y11*x22)-(y11-y22)*(x3*y4-y3*x4))/d;
         }
 
-        x3 = x1 + width;
+        x3 = x1 + width1;
         y3 = y1;
-        x4 = x1 + width;
-        y4= y1 + height;
+        x4 = x1 + width1;
+        y4= y1 + height1;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -286,16 +311,16 @@ public class GUI_Creator {
 
         help_x = x2;
         help_y = y2;
-        x2 -=  width/2;
-        y2 -= height/2;
+        x2 -=  width2/2;
+        y2 -= height2/2;
 
-        x11 = help_x1+ width/2;
-        y11 =help_y1+height/2;
-        x22 =x2+ width/2;
-        y22 = y2+ height/2;
+        x11 = help_x1+ width1/2;
+        y11 =help_y1+height1/2;
+        x22 =x2+ width2/2;
+        y22 = y2+ height2/2;
         x3 = x2;
         y3 = y2;
-        x4 = x2+width;
+        x4 = x2+width2;
         y4= y2;
         point1_x=0;
         point1_y=0;
@@ -313,9 +338,9 @@ public class GUI_Creator {
         }
 
         x3 = x2;
-        y3 = y2 + height;
-        x4 = x2 + width;
-        y4= y2 +height;
+        y3 = y2 + height2;
+        x4 = x2 + width2;
+        y4= y2 +height2;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -326,7 +351,7 @@ public class GUI_Creator {
         x3 = x2;
         y3 = y2;
         x4 = x2;
-        y4= y2 +height;
+        y4= y2 +height2;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -334,10 +359,10 @@ public class GUI_Creator {
             point3_y = ((y3-y4)*(x11*y22-y11*x22)-(y11-y22)*(x3*y4-y3*x4))/d;
         }
 
-        x3 = x2 + width;
+        x3 = x2 + width2;
         y3 = y2;
-        x4 = x2 + width;
-        y4= y2 + height;
+        x4 = x2 + width2;
+        y4= y2 + height2;
 
         d = (x11-x22)*(y3-y4) - (y11-y22)*(x3-x4);
         if (d != 0) {
@@ -394,9 +419,6 @@ public class GUI_Creator {
         }
         x2 = help_x2;
         y2 = help_y2;
-
-
-
 
         Group arrow_line = new Group();
         Polygon polygon = new Polygon();
@@ -531,4 +553,26 @@ public class GUI_Creator {
         return arrow_line;
     }
 
+
+}
+
+class SizingSandbox extends Group  implements Closeable {
+
+    public SizingSandbox(Node... nodes) {
+        new Scene(this);
+        getChildren().addAll(nodes);
+        layItOut();
+    }
+
+    @Override
+    public void close() {
+        try {
+            getChildren().removeAll();
+        } catch (Exception e) { }
+    }
+
+    private void layItOut() {
+        applyCss();
+        layout();
+    }
 }

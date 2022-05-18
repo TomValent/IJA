@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -81,9 +82,9 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="280.0">
                            <children>
-                              <Button fx:id="btn_delete_class" mnemonicParsing="false" prefHeight="24.0" prefWidth="68.0" text="Delete" onAction="#deleteClass" />
+                              <Button fx:id="btn_delete_class" mnemonicParsing="false" onAction="#deleteClass" prefHeight="24.0" prefWidth="68.0" text="Delete" />
                               <Region prefHeight="32.0" prefWidth="104.0" />
-                              <Button fx:id="btn_create_class" mnemonicParsing="false" prefHeight="24.0" prefWidth="68.0" text="Create" onAction="#createClass" />
+                              <Button fx:id="btn_create_class" mnemonicParsing="false" onAction="#createClass" prefHeight="24.0" prefWidth="68.0" text="Create" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
@@ -141,10 +142,113 @@
                   </VBox>
                </content>
           </TitledPane>
-          <TitledPane animated="false" text="untitled 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+          <TitledPane animated="false" text="Relationship">
+               <content>
+                  <VBox>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="277.0" text="Associations" />
+                        <ListView fx:id="lv_associations" prefHeight="100.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="81.0" text="Name" />
+                              <TextField fx:id="tf_association_name" prefHeight="24.0" prefWidth="213.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="3.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Class 1" />
+                              <ComboBox fx:id="cb_association_class1" prefHeight="24.0" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Cardinality 1" />
+                              <ComboBox fx:id="cb_association_cardinality1" prefHeight="24.0" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefWidth="103.0" text="Class 2" />
+                              <ComboBox fx:id="cb_association_class2" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Cardinality 2" />
+                              <ComboBox fx:id="cb_association_cardinality2" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="36.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_association_delete" mnemonicParsing="false" onAction="#delete_association" prefHeight="24.0" prefWidth="74.0" text="Delete" />
+                              <Region prefHeight="29.0" prefWidth="113.0" />
+                              <Button fx:id="btn_association_add" mnemonicParsing="false" onAction="#add_association" prefWidth="74.0" text="Add" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="277.0" text="Generalizations" />
+                        <ListView fx:id="lv_generalizations" prefHeight="100.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER" prefHeight="3.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Parent" />
+                              <ComboBox fx:id="cb_generalization_parent" prefHeight="24.0" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0" />
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefWidth="103.0" text="Child" />
+                              <ComboBox fx:id="cb_generalization_child" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0" />
+                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_generalization_delete" mnemonicParsing="false" onAction="#delete_generalization"  prefHeight="24.0" prefWidth="74.0" text="Delete" />
+                              <Region prefHeight="32.0" prefWidth="113.0" />
+                              <Button fx:id="btn_generalization_add" mnemonicParsing="false" onAction="#add_generalization"  prefWidth="74.0" text="Add" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="277.0" text="Aggregations/Compositions" />
+                        <ListView fx:id="lv_aggrcomps" prefHeight="100.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="280.0" />
+                        <HBox alignment="CENTER" prefHeight="3.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Parent" />
+                              <ComboBox fx:id="cb_aggrcomps_parent" prefHeight="24.0" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0" />
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefWidth="103.0" text="Child" />
+                              <ComboBox fx:id="cb_aggrcomps_child" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Cardinality" />
+                              <ComboBox fx:id="cb_aggrcomps_cardinality" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="280.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="16.0" prefWidth="103.0" text="Type" />
+                              <ComboBox fx:id="cb_aggrcomps_type" prefWidth="204.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="280.0">
+                           <children>
+                              <Button fx:id="btn_aggrcomps_delete" mnemonicParsing="false" onAction="#delete_aggrcomp"  prefHeight="24.0" prefWidth="74.0" text="Delete" />
+                              <Region prefHeight="29.0" prefWidth="113.0" />
+                              <Button fx:id="btn_aggrcomps_add" mnemonicParsing="false" onAction="#add_aggrcomp"  prefWidth="74.0" text="Add" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </content>
           </TitledPane>
           <TitledPane animated="false" text="untitled 3">
             <content>

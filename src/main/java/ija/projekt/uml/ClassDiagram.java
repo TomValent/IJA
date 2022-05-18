@@ -16,9 +16,10 @@ public class ClassDiagram extends Element {
 
 
     private ObservableList<UMLClass> classes = FXCollections.observableArrayList();
-    private final List<Association> associations = new ArrayList<>();
-    private final List<AggregationComposition> aggrcomps = new ArrayList<>();
-    private final List<GeneralizationSpecification> genspecs = new ArrayList<>();
+    private ObservableList<Association> associations = FXCollections.observableArrayList();
+    private ObservableList<AggregationComposition> aggrcomps = FXCollections.observableArrayList();
+    private ObservableList<GeneralizationSpecification> genspecs = FXCollections.observableArrayList();
+
 
     public ClassDiagram(java.lang.String name) {
         super(name);
@@ -39,16 +40,26 @@ public class ClassDiagram extends Element {
         associations.add(associationInstance);
         return associationInstance;
     }
+    public void addAssociation(Association association) {
+        associations.add(association);
+    }
+
     public AggregationComposition createAggrComp(java.lang.String name, UMLClass parent, UMLClass child, String child_cardinality, int type) {
         var aggrcomptionInstance = new AggregationComposition(name, parent, child, child_cardinality, type);
         aggrcomps.add(aggrcomptionInstance);
         return aggrcomptionInstance;
+    }
+    public void addGeneralization(GeneralizationSpecification generalization) {
+        genspecs.add(generalization);
     }
 
     public GeneralizationSpecification createGenSpec(java.lang.String name, UMLClass parent, int type) {
         var genspecInstance = new GeneralizationSpecification(name, parent, type);
         genspecs.add(genspecInstance);
         return genspecInstance;
+    }
+    public void addAggrcomp(AggregationComposition aggrcomp) {
+        aggrcomps.add(aggrcomp);
     }
 
     public boolean deleteAssociation(java.lang.String name){
@@ -58,6 +69,10 @@ public class ClassDiagram extends Element {
         }
         return false;
     }
+    public void removeAssociation(Association association){
+        associations.remove(association);
+    }
+
     public boolean deleteAggrComp(java.lang.String name){
         if (aggrcomps.stream().anyMatch(x -> x.getName().equals(name))) {
             aggrcomps.remove(name);
@@ -65,12 +80,32 @@ public class ClassDiagram extends Element {
         }
         return false;
     }
+    public void removeGeneralization(GeneralizationSpecification generalization){
+        genspecs.remove(generalization);
+    }
+
     public boolean deleteGenspec(java.lang.String name){
         if (genspecs.stream().anyMatch(x -> x.getName().equals(name))) {
             genspecs.remove(name);
             return true;
         }
         return false;
+    }
+    public void removeAggrcomp(AggregationComposition aggrcomp){
+        aggrcomps.remove(aggrcomp);
+    }
+
+    public void removeRelationships(ArrayList<Association> remove_assoc, ArrayList<GeneralizationSpecification> remove_gen, ArrayList<AggregationComposition> remove_aggr){
+        for(Association assoc: remove_assoc){
+            associations.remove(assoc);
+        }
+        for(GeneralizationSpecification gen: remove_gen){
+            genspecs.remove(gen);
+        }
+        for(AggregationComposition aggr: remove_aggr){
+            aggrcomps.remove(aggr);
+        }
+
     }
 
     public UMLClassifier findClassifier(java.lang.String name) {
@@ -101,12 +136,10 @@ public class ClassDiagram extends Element {
         return FXCollections.unmodifiableObservableList(classes);
     }
     public List<Association> getAssociations() {
-        return Collections.unmodifiableList(associations);
+        return FXCollections.unmodifiableObservableList(associations);
     }
     public List<AggregationComposition> getAggrcomps() {
-        return Collections.unmodifiableList(aggrcomps);
+        return FXCollections.unmodifiableObservableList(aggrcomps);
     }
-    public List<GeneralizationSpecification> getGenspecs() {
-        return Collections.unmodifiableList(genspecs);
-    }
+    public List<GeneralizationSpecification> getGenspecs() { return FXCollections.unmodifiableObservableList(genspecs); }
 }

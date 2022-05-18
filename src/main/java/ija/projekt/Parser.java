@@ -43,6 +43,14 @@ public class Parser {
                 UMLAttribute created_attribute = new UMLAttribute(new_attribute.getAttr(), new_classifier, UMLAttributeModifier.PRIVATE);
                 created_class.addAttribute(created_attribute);
             }
+            for (JSMessage new_method : loadData.getMessages()) {
+                if (new_method.getSender().equals(created_class.getName())){
+                    System.out.println("equals");
+                    UMLClassifier new_classifier = classDiagram.classifierForName(new_method.getType());
+                    UMLOperation created_method = new UMLOperation(new_method.getName(), new_classifier);
+                    created_class.addMethod(created_method);
+                }
+            }
         }
         for (JSAssociation new_association : loadData.getAssociations()) {
             Association created_association = classDiagram.createAssociation(new_association.getDescription());

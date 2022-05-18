@@ -77,6 +77,6 @@ public class UMLOperation extends UMLAttribute{
 
     @Override
     public java.lang.String toString() {
-        return name + ":" + classifier.name;
+        return classifier.name + " " + name + "()" ;
     }
 }

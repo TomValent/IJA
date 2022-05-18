@@ -1,5 +1,7 @@
 package ija.projekt.uml;
 
+import javafx.scene.layout.VBox;
+
 import java.util.*;
 
 /**
@@ -9,7 +11,7 @@ import java.util.*;
 public class Association extends UMLClassRelationship{
 
     private ArrayList<UMLAttribute> attrs = new ArrayList<UMLAttribute>();
-    private  Map<UMLClass, ArrayList<String>> class_cardinality = new HashMap<>();
+    private  Map<UMLClass, String> class_cardinality = new HashMap<>();
 
     public Association(String name) {
         super(name);
@@ -58,13 +60,8 @@ public class Association extends UMLClassRelationship{
     }
 
     public boolean addClasswithCardinality(UMLClass oneclass, String cardinality){
-        if (this.class_cardinality.size()<3 && this.class_cardinality.get(oneclass) == null){
-            this.class_cardinality.put(oneclass, new ArrayList<String>());
-            this.class_cardinality.get(oneclass).add(cardinality);
-            return true;
-        }
-        if (this.class_cardinality.size()==1 && this.class_cardinality.get(oneclass)!=null){
-            this.class_cardinality.get(oneclass).add(cardinality);
+        if (this.class_cardinality.size()<2){
+            this.class_cardinality.put(oneclass, cardinality);
             return true;
         }
         return false;
@@ -77,8 +74,19 @@ public class Association extends UMLClassRelationship{
         }
         return false;
     }
-    public Map<UMLClass, ArrayList<String>> getClassCardinality() {
+    public Map<UMLClass, String> getClassCardinality() {
         return Collections.unmodifiableMap(class_cardinality);
+    }
+
+    @Override
+    public String toString(){
+        ArrayList<UMLClass> classes = new ArrayList<>();
+        for (Map.Entry<UMLClass, String> class_cardinality : this.getClassCardinality().entrySet()) {
+           classes.add(class_cardinality.getKey());
+        }
+        UMLClass class1 = classes.get(0);
+        UMLClass class2 = classes.get(1);
+        return this.getName() + " : " + class1.getName() + "<-->" + class2.getName();
     }
 
 }
