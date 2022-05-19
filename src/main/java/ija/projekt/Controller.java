@@ -1035,8 +1035,6 @@ public class Controller {
         }
     }
     public Group createLine(VBox start, VBox end , int type, String cardinality1, String cardinality2){
-        System.out.println(container_class_map.get(start));
-        System.out.println(container_class_map.get(end));
         Line line = new Line();
         double height1 = start.getHeight();
         double width1 = start.getPrefWidth();
