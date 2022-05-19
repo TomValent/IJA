@@ -5,6 +5,9 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
 import java.security.KeyException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import ija.projekt.js.*;
 import ija.projekt.uml.*;
@@ -87,6 +90,61 @@ public class Parser {
      * @throws IOException when writer can't write to file or can't find the directory.
      */
     public void save(String filename) throws IOException {
+        loadData.removeClassDiagram();
+        for (UMLClass classs: classDiagram.getClasses()){
+            List<JSAttr> attrList = new ArrayList<>();
+            for (UMLAttribute attribute: classs.getAttributes()){
+                JSAttr attr = new JSAttr(attribute.getName(), attribute.getType().toString());
+                attrList.add(attr);
+            }
+            List<String> methods= new ArrayList<>();
+            for (UMLOperation method: classs.getMethods()){
+                methods.add(method.getName());
+            }
+            for (UMLOperation method: classs.getMethods()){
+                List<String> messages = new ArrayList<>();
+                for (JSMessage message : loadData.getMessages()){
+                    messages.add(message.getName());
+                    if (!methods.contains(message.getName())){
+                        loadData.rmMsg(message);
+                    }
+                }
+                if (!messages.contains(method.getName())){
+                    JSMessage message = new JSMessage(method.getName(),method.getType().toString(),classs.getName(), "", "false");
+                    loadData.addMsg(message);
+                }
+            }
+            JSClass jsClass = new JSClass(String.valueOf(classs.isAbstract()), classs.getName(),attrList);
+            loadData.addClass(jsClass);
+        }
+        for (Association association : classDiagram.getAssociations()){
+            ArrayList<UMLClass> containers = new ArrayList<>();
+            ArrayList<String> cardinality = new ArrayList<>();
+            for (Map.Entry<UMLClass, String> class_cardinality : association.getClassCardinality().entrySet()) {
+                containers.add(class_cardinality.getKey());
+                cardinality.add(class_cardinality.getValue());
+            }
+            String cardinality1 = cardinality.get(0);
+            String cardinality2 = cardinality.get(1);
+            UMLClass class1 = containers.get(0);
+            UMLClass class2 = containers.get(1);
+            JSAssociation jsAssociation = new JSAssociation(association.getName(),class1.getName(),class2.getName(),cardinality1,cardinality2);
+            loadData.addAssociation(jsAssociation);
+        }
+        for (GeneralizationSpecification generalization : classDiagram.getGenspecs()){
+            List<JSChild> jsChildren = new ArrayList<>();
+            for(UMLClass child : generalization.getChildren()){
+                JSChild jsChild = new JSChild(child.getName());
+                jsChildren.add(jsChild);
+            }
+            JSInheritance inheritance = new JSInheritance(generalization.getParent().getName(),String.valueOf(generalization.getType()),jsChildren);
+            loadData.addInherit(inheritance);
+        }
+        for (AggregationComposition aggrcomp : classDiagram.getAggrcomps()){
+            JSAggrComp jsAggrComp = new JSAggrComp(aggrcomp.getParent().getName(),aggrcomp.getChild().getName(),aggrcomp.getChildCardinality(),String.valueOf(aggrcomp.getType()));
+            loadData.addAggrComp(jsAggrComp);
+        }
+
         try{
             Writer writer = new FileWriter("./data/" + filename + ".json");;
             new Gson().toJson(loadData, writer);

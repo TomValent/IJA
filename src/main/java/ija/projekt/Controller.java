@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -92,8 +93,8 @@ public class Controller {
     private Association selected_association = null;
     private GeneralizationSpecification selected_generalization = null;
     private AggregationComposition selected_aggrcomp = null;
-    private Double startX;
-    private Double startY;
+    private Double mouseX;
+    private Double mouseY;
     private int x = 20;
     private int y = 20;
     private GUI_Creator gui_creator=new GUI_Creator();
@@ -160,12 +161,13 @@ public class Controller {
     private String filename;
 
     public void initialize() throws IOException, KeyException {
-
+        labelClass.setText(classDiagram.getName());
         String cssLayout = "-fx-border-color: black;\n" +
                 "-fx-border-insets: 0;\n" +
                 "-fx-border-width: 1;\n";
 
-
+        x=20;
+        y=20;
         for (UMLClass classes : classDiagram.getClasses()){
             new_class(classes);
         }
@@ -380,7 +382,6 @@ public class Controller {
             set_selected_aggrcomp(lv_aggrcomps.getSelectionModel().getSelectedItem());
         });
 
-        labelClass.setText(classDiagram.getName());
         createAssociations();
         createGenspecs();
         createAggrComps();
@@ -731,14 +732,34 @@ public class Controller {
         classDiagram.removeRelationships(remove_assoc,remove_gen,remove_aggr);
     }
     public void mouseActions(VBox vbox){
-        vbox.setOnMousePressed(e -> {
-            if(e.getButton() == MouseButton.PRIMARY) {
-                startX = e.getSceneX();
-                startY = e.getSceneY();
+        vbox.setOnMousePressed(mouseEvent -> {
+            if(mouseEvent.getButton() == MouseButton.PRIMARY) {
+                mouseX = mouseEvent.getSceneX();
+                mouseY = mouseEvent.getSceneY();
             }
-            if(e.getButton() == MouseButton.SECONDARY) {
+            if(mouseEvent.getButton() == MouseButton.SECONDARY) {
                 selected_class = container_class_map.get(vbox);
                 set_selected_class(selected_class);
+            }
+        });
+        vbox.setOnMouseDragged(mouseEvent -> {
+            if(mouseEvent.getButton() == MouseButton.PRIMARY) {
+                double posX = mouseEvent.getSceneX() - mouseX;
+                double posY = mouseEvent.getSceneY() - mouseY;
+                Bounds bounds = vbox.getBoundsInParent();
+                double x_min = bounds.getMinX();
+                double y_min = bounds.getMinY();
+                double x_max = bounds.getMaxX();
+                double y_max = bounds.getMaxY();
+
+                if(x_min + posX >= 0 && x_max + posX <= class_pane.getWidth()) {
+                    vbox.setLayoutX(vbox.getLayoutX() + posX);
+                }
+                if(y_min + posY >= 0 && y_max + posY <= class_pane.getHeight()) {
+                    vbox.setLayoutY(vbox.getLayoutY() + posY);
+                }
+                mouseX = mouseEvent.getSceneX();
+                mouseY = mouseEvent.getSceneY();
             }
         });
 

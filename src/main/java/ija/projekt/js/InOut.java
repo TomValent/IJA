@@ -221,4 +221,10 @@ public class InOut{
         this.gen_spe.clear();
         this.seq_dia.clear();
     }
+    public void removeClassDiagram(){
+        this.classes.clear();
+        this.association.clear();
+        this.agg_com.clear();
+        this.gen_spe.clear();
+    }
 }
