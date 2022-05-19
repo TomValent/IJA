@@ -51,12 +51,6 @@
                 <MenuItem mnemonicParsing="false" onAction="#rmBoth" text="Delete" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="View">
-              <items>
-                  <CheckMenuItem mnemonicParsing="false" text="Class Diagram" />
-                  <CheckMenuItem mnemonicParsing="false" text="Sequence Diagram" />
-              </items>
-            </Menu>
         </menus>
       </MenuBar>
    </top>

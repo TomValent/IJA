@@ -161,15 +161,22 @@ public class Controller {
     private String filename;
 
     public void initialize() throws IOException, KeyException {
-        labelClass.setText(classDiagram.getName());
+
+
         String cssLayout = "-fx-border-color: black;\n" +
                 "-fx-border-insets: 0;\n" +
                 "-fx-border-width: 1;\n";
 
-        x=20;
-        y=20;
+        x = 20;
+        y = 20;
         for (UMLClass classes : classDiagram.getClasses()){
             new_class(classes);
+
+            x += 300;
+            if (x > 400){
+                y += 200;
+                x = 20;
+            }
         }
         set_selected_class(null);
         classes.addListener(new ListChangeListener<UMLClass>() {
@@ -382,6 +389,7 @@ public class Controller {
             set_selected_aggrcomp(lv_aggrcomps.getSelectionModel().getSelectedItem());
         });
 
+        labelClass.setText(classDiagram.getName());
         createAssociations();
         createGenspecs();
         createAggrComps();
@@ -510,11 +518,7 @@ public class Controller {
     }
 
     public void undo() throws IOException, KeyException {
-        if(!history.empty()){
-            loadData = history.pop();
-            rmBoth();
-            initialize();
-        }
+
     }
 
     public void saveClassName(){
@@ -543,8 +547,6 @@ public class Controller {
         class_pane.getChildren().add(class_container);
         class_container.relocate(x, y);
 
-        class_container_map.put(classs,class_container);
-        container_class_map.put(class_container,classs);
 
         Label name = new Label();
         name.setFont(Font.font(15));
@@ -558,11 +560,11 @@ public class Controller {
 
         ObservableList<UMLAttribute> attributes = (ObservableList<UMLAttribute>) classs.getAttributes();
         ListView<UMLAttribute> attribute_list = new ListView<UMLAttribute>(attributes);
-        attribute_list.setPrefHeight(attributes.size() * 22 + 5);
+        attribute_list.setPrefHeight(attributes.size() * 22 + 4);
         attributes.addListener(new ListChangeListener<UMLAttribute>() {
             @Override
             public void onChanged(Change<? extends UMLAttribute> change) {
-                attribute_list.setPrefHeight(attributes.size() * 22 + 5);
+                attribute_list.setPrefHeight(attributes.size() * 22 + 4);
             }
         });
         attribute_list.setMouseTransparent(true);
@@ -571,22 +573,20 @@ public class Controller {
 
         ObservableList<UMLOperation> methods = (ObservableList<UMLOperation>) classs.getMethods();
         ListView<UMLOperation> method_list = new ListView<UMLOperation>(methods);
-        method_list.setPrefHeight(methods.size() * 22 + 5);
+        method_list.setPrefHeight(methods.size() * 22 + 4);
         methods.addListener(new ListChangeListener<UMLOperation>() {
             @Override
             public void onChanged(Change<? extends UMLOperation> change) {
-                method_list.setPrefHeight(methods.size() * 22 + 5);
+                method_list.setPrefHeight(methods.size() * 22 + 4);
             }
         });
         method_list.setMouseTransparent(true);
         method_list.setFocusTraversable(false);
         class_container.getChildren().add(method_list);
 
-        x += 300;
-        if (x > 400){
-            y += 200;
-            x = 20;
-        }
+        class_container_map.put(classs,class_container);
+        container_class_map.put(class_container,classs);
+
         set_selected_class(classs);
     }
 
@@ -630,17 +630,17 @@ public class Controller {
     }
 
     public void add_association(){
-            Association association = new Association(tf_association_name.getText());
-            association.addClasswithCardinality(cb_association_class1.getValue(), cb_association_cardinality1.getValue());
-            association.addClasswithCardinality(cb_association_class2.getValue(), cb_association_cardinality2.getValue());
-            classDiagram.addAssociation(association);
-            selected_association = association;
-            tf_association_name.clear();
-            cb_association_class1.setValue(null);
-            cb_association_class2.setValue(null);
-            cb_association_cardinality1.setValue(null);
-            cb_association_cardinality2.setValue(null);
-            lv_associations.getItems().add(association);
+        Association association = new Association(tf_association_name.getText());
+        association.addClasswithCardinality(cb_association_class1.getValue(), cb_association_cardinality1.getValue());
+        association.addClasswithCardinality(cb_association_class2.getValue(), cb_association_cardinality2.getValue());
+        classDiagram.addAssociation(association);
+        selected_association = association;
+        tf_association_name.clear();
+        cb_association_class1.setValue(null);
+        cb_association_class2.setValue(null);
+        cb_association_cardinality1.setValue(null);
+        cb_association_cardinality2.setValue(null);
+        lv_associations.getItems().add(association);
     }
 
     public void delete_association(){
@@ -762,6 +762,9 @@ public class Controller {
                 mouseY = mouseEvent.getSceneY();
             }
         });
+
+
+
 
     }
     public void mouseActions_assoc(Group line){
@@ -902,7 +905,7 @@ public class Controller {
             root.applyCss();
             root.layout();
 
-            Group line = createLine(start, end, 4, cardinality1,cardinality2);
+            Group line = createLine(start, end, 4, cardinality1, cardinality2);
             mouseActions_assoc(line);
             class_pane.getChildren().add(line);
             class_pane.getChildren().remove(root);
@@ -1032,8 +1035,9 @@ public class Controller {
         }
     }
     public Group createLine(VBox start, VBox end , int type, String cardinality1, String cardinality2){
+        System.out.println(container_class_map.get(start));
+        System.out.println(container_class_map.get(end));
         Line line = new Line();
-
         double height1 = start.getHeight();
         double width1 = start.getPrefWidth();
         double height2 = end.getHeight();
@@ -1049,6 +1053,7 @@ public class Controller {
         double help_y1 = y1;
         double help_x2 = x2;
         double help_y2 = y2;
+
         x2 +=  width2/2;
         y2 += height2/2;
         double x11 = x1+ width1/2;
@@ -1163,7 +1168,6 @@ public class Controller {
                 help_y=secondpath_y;
             }
         }
-
         x1 = help_x;
         y1 = help_y;
 

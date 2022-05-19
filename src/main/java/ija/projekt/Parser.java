@@ -144,7 +144,6 @@ public class Parser {
             JSAggrComp jsAggrComp = new JSAggrComp(aggrcomp.getParent().getName(),aggrcomp.getChild().getName(),aggrcomp.getChildCardinality(),String.valueOf(aggrcomp.getType()));
             loadData.addAggrComp(jsAggrComp);
         }
-
         try{
             Writer writer = new FileWriter("./data/" + filename + ".json");;
             new Gson().toJson(loadData, writer);
