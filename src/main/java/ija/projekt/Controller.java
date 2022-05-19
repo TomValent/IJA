@@ -444,6 +444,7 @@ public class Controller {
 
             x += 120;
         }
+
         int n = 1;
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             for(LifelineObject message : kvestor.getObjects()){
@@ -454,18 +455,36 @@ public class Controller {
                 arrow.setEndY((n)*20+90);
 
                 arrow.setStartX(kvestor.getX());                //sender
-                arrow.setStartY((n++)*20+90);
+                arrow.setStartY((n)*20+90);
                 seq_pane.getChildren().add(arrow);
+
+                Label msgText = new Label(message.getDesc());
+                if(kvestor.getX() < message.getTarget().getX()) {
+                    msgText.relocate(kvestor.getX()+20, (n++)*20+75);
+                    seq_pane.getChildren().add(msgText);
+                }
+                else {
+                    msgText.relocate(kvestor.getX()-50, (n++)*20+75);
+                    seq_pane.getChildren().add(msgText);
+                }
             }
         }
     }
 
-    public void newSeqD(){              //vymaze cast pre sekvencny diagram aby sa dal kreslit novy
-        seq_pane.getChildren().clear();
-    }
+    public void openFile(ActionEvent actionEvent) throws IOException, KeyException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("./data"));
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("json files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Open");
+        File newFile = fileChooser.showOpenDialog(globalStage);
+        filename = newFile.getName();
 
-    public void newClassD(){              //vymaze cast pre class diagram aby sa dal kreslit novy
-        class_pane.getChildren().clear();
+        rmBoth();
+
+        Parser input = new Parser();
+        input.parse("./data/" + filename);
+        this.initialize();
     }
 
     public void rmBoth(){

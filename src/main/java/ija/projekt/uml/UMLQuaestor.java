@@ -23,9 +23,8 @@ public class UMLQuaestor extends UMLClassifier {
         return this.name;
     }
 
-    public UMLQuaestor addLink(UMLQuaestor target){
+    public void addLink(UMLQuaestor target){
         objs.add(new LifelineObject(target, false));
-        return this;
     }
 
     public UMLQuaestor addLink(UMLQuaestor target, boolean trans){
@@ -45,7 +44,6 @@ public class UMLQuaestor extends UMLClassifier {
     public LifelineObject getObject(int index) {
         return objs.get(index);
     }
-
 
     /**
      * Cancel linking between 2 objects.

@@ -3,7 +3,6 @@ module ija.projekt {
     requires javafx.fxml;
     requires com.google.gson;
 
-
-    opens ija.projekt to javafx.fxml;
+    opens ija.projekt.js to com.google.gson;
     exports ija.projekt;
 }

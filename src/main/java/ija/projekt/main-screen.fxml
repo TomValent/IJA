@@ -40,14 +40,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
                <items>
-                  <Menu mnemonicParsing="false" text="New">
-                    <items>
-                        <MenuItem fx:id="newClassDiagram" mnemonicParsing="false" onAction="#newClassD" text="Class Diagram" />
-                        <MenuItem fx:id="newSeqDiagram" mnemonicParsing="false" onAction="#newSeqD" text="Sequence Diagram" />
-                    </items>
-                  </Menu>
-                   <MenuItem fx:id="save" onAction="#saveToJson" text="Save" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="New"/>
+                  <MenuItem fx:id="save" onAction="#saveToJson" text="Save" />
+                  <MenuItem fx:id="open" onAction="#openFile" text="Open" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

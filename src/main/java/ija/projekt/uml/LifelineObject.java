@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class LifelineObject {
     private final UMLQuaestor target;
+    private String desc;
     private boolean transmittion = false;
 
     public LifelineObject(UMLQuaestor target, boolean transmittion) {
@@ -28,4 +29,11 @@ public class LifelineObject {
         return transmittion;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 }

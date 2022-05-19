@@ -72,12 +72,24 @@ public class Parser {
         }
 
         for (JSMessage request : loadData.getMessages()) {
-
             sequenceDiagram.getQ(request.getSender()).addLink(sequenceDiagram.getQ(request.getReceiver()));
-            for(LifelineObject obj : sequenceDiagram.getQ(request.getSender()).getObjects()){
-                obj.setTransmittion(request.getTransmition().equals("true"));
+        }
+        for (UMLQuaestor q : sequenceDiagram.getAllQuaestors()){
+            for (LifelineObject o :q.getObjects()){
+                for (JSMessage request : loadData.getMessages()){
+                    if(request.getSender().equals(q.getName())){
+                        o.setDesc(request.getName());
+                        o.setTransmittion(request.getTransmition().equals("true"));
+                        System.out.println("here");
+                    }
+                }
             }
         }
+
+        /*System.out.println("");
+        for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
+            System.out.println(sequenceDiagram.getQ(quaestorName.getName()).getObjects().size() + " " + quaestorName.getName());
+        }*/
     }
 
     /**
