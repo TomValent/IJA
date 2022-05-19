@@ -9,6 +9,7 @@ import java.security.KeyException;
 import ija.projekt.js.*;
 import ija.projekt.uml.*;
 
+import static ija.projekt.Controller.history;
 import static java.lang.System.exit;
 
 /**
@@ -73,24 +74,13 @@ public class Parser {
 
         for (JSMessage request : loadData.getMessages()) {
             sequenceDiagram.getQ(request.getSender()).addLink(sequenceDiagram.getQ(request.getReceiver()));
-        }
-        for (UMLQuaestor q : sequenceDiagram.getAllQuaestors()){
-            System.out.println(sequenceDiagram.getAllQuaestors().size() + " quaestors");
-            for (LifelineObject o :q.getObjects()){
-                for (JSMessage request : loadData.getMessages()){
-                    if(request.getSender().equals(q.getName())){
-                        o.setDesc(request.getName());
-                        o.setTransmittion(request.getTransmition().equals("true"));
-                        System.out.println(request.getSender() + " -> " + o.getTarget().getName());
-                    }
-                }
+            for(LifelineObject obj : sequenceDiagram.getQ(request.getSender()).getObjects()){
+                obj.setTransmittion(request.getTransmition().equals("true"));
+                obj.setDesc(request.getName());
             }
         }
 
-        /*System.out.println("");
-        for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
-            System.out.println(sequenceDiagram.getQ(quaestorName.getName()).getObjects().size() + " " + quaestorName.getName());
-        }*/
+        history.push(loadData);
     }
 
     /**

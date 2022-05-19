@@ -1,5 +1,6 @@
 package ija.projekt;
 
+import ija.projekt.js.InOut;
 import ija.projekt.uml.*;
 import ija.projekt.js.JSMessage;
 import ija.projekt.uml.*;
@@ -36,10 +37,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.security.KeyException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static ija.projekt.Application.globalStage;
 import static ija.projekt.Parser.classDiagram;
@@ -158,7 +156,7 @@ public class Controller {
     ListView<AggregationComposition> lv_aggrcomps;
 
 
-
+    public static Stack<InOut> history = new Stack<InOut>();
     private String filename;
 
     public void initialize() throws IOException, KeyException {
@@ -448,7 +446,6 @@ public class Controller {
         int n = 1;
         for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
             for(LifelineObject message : kvestor.getObjects()){
-
                 Arrow arrow = new Arrow();
 
                 arrow.setEndX(message.getTarget().getX());      //receiver
@@ -508,6 +505,14 @@ public class Controller {
             output.save(savingFile.getName());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void undo() throws IOException, KeyException {
+        if(!history.empty()){
+            loadData = history.pop();
+            rmBoth();
+            initialize();
         }
     }
 

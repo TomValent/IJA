@@ -1,7 +1,5 @@
 package ija.projekt.uml;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Tomas Valent

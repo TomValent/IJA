@@ -8,7 +8,7 @@ import java.util.List;
  * Class represents quaestor in sequence diagram.
  */
 public class UMLQuaestor extends UMLClassifier {
-    private final List<LifelineObject> objs = new ArrayList<>();
+    private List<LifelineObject> objs = new ArrayList<>();
     private int x;
 
     /**
