@@ -518,7 +518,11 @@ public class Controller {
     }
 
     public void undo() throws IOException, KeyException {
-
+        if(!history.empty()){
+            loadData = history.pop();
+            rmBoth();
+            initialize();
+        }
     }
 
     public void saveClassName(){
