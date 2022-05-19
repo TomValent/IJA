@@ -75,12 +75,13 @@ public class Parser {
             sequenceDiagram.getQ(request.getSender()).addLink(sequenceDiagram.getQ(request.getReceiver()));
         }
         for (UMLQuaestor q : sequenceDiagram.getAllQuaestors()){
+            System.out.println(sequenceDiagram.getAllQuaestors().size() + " quaestors");
             for (LifelineObject o :q.getObjects()){
                 for (JSMessage request : loadData.getMessages()){
                     if(request.getSender().equals(q.getName())){
                         o.setDesc(request.getName());
                         o.setTransmittion(request.getTransmition().equals("true"));
-                        System.out.println("here");
+                        System.out.println(request.getSender() + " -> " + o.getTarget().getName());
                     }
                 }
             }

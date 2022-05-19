@@ -21,6 +21,14 @@ public class JSSequence {
     }
 
     /**
+     * Constructor without lists.
+     * @param name name of diagram.
+     */
+    public JSSequence(String name) {
+        this.name = name;
+    }
+
+    /**
      * Getter of diagram name.
      * @return name.
      */

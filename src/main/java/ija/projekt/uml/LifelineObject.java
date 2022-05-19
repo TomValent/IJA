@@ -10,7 +10,7 @@ import java.util.List;
 public class LifelineObject {
     private final UMLQuaestor target;
     private String desc;
-    private boolean transmittion = false;
+    private boolean transmittion;
 
     public LifelineObject(UMLQuaestor target, boolean transmittion) {
         this.target = target;
