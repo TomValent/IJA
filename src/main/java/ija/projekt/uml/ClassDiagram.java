@@ -3,6 +3,7 @@ package ija.projekt.uml;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -133,13 +134,14 @@ public class ClassDiagram extends Element {
     }
 
     public List<UMLClass> getClasses() {
-        return FXCollections.unmodifiableObservableList(classes);
+        return (classes);
     }
     public List<Association> getAssociations() {
-        return FXCollections.unmodifiableObservableList(associations);
+        return (associations);
     }
     public List<AggregationComposition> getAggrcomps() {
-        return FXCollections.unmodifiableObservableList(aggrcomps);
+        return (aggrcomps);
     }
-    public List<GeneralizationSpecification> getGenspecs() { return FXCollections.unmodifiableObservableList(genspecs); }
+    public List<GeneralizationSpecification> getGenspecs() { return (genspecs); }
+
 }

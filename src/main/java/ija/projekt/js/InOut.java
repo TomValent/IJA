@@ -213,7 +213,6 @@ public class InOut{
 
     public void removeEverything(){
         this.nameSeq = nameSeq.replace(nameSeq, "");
-        this.nameClass = nameClass.replace(nameClass, "");
         this.classes.clear();
         this.messages.clear();
         this.association.clear();

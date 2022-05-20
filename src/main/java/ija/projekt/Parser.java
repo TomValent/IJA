@@ -6,11 +6,14 @@ import com.google.gson.JsonSyntaxException;
 import java.io.*;
 import java.security.KeyException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import ija.projekt.js.*;
 import ija.projekt.uml.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import static ija.projekt.Controller.history;
 import static java.lang.System.exit;
@@ -26,6 +29,7 @@ public class Parser {
 
     static ClassDiagram classDiagram;
     static SequenceDiagram sequenceDiagram;
+    static ObservableList<SequenceDiagram> sequenceDiagrams = FXCollections.observableArrayList();
     /**
      * @param input string with a path to input file.
      * @throws IOException when can't open file or json is invalid.
@@ -74,13 +78,27 @@ public class Parser {
         for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
             sequenceDiagram.addQuaestor(quaestorName.getName());
         }
-
         for (JSMessage request : loadData.getMessages()) {
             sequenceDiagram.getQ(request.getSender()).addLink(sequenceDiagram.getQ(request.getReceiver()));
             for(LifelineObject obj : sequenceDiagram.getQ(request.getSender()).getObjects()){
                 obj.setTransmittion(request.getTransmition().equals("true"));
                 obj.setDesc(request.getName());
             }
+        }
+        sequenceDiagrams.add(sequenceDiagram);
+        for(JSSequence jsSequence:loadData.getSeq()){
+            SequenceDiagram new_sequenceDiagram = new SequenceDiagram(loadData.getNameSeq());
+            for (JSClass quaestorName : loadData.getClasses()) {        //className == quaestorName
+                new_sequenceDiagram.addQuaestor(quaestorName.getName());
+            }
+            for (JSMessage request : loadData.getMessages()) {
+                new_sequenceDiagram.getQ(request.getSender()).addLink(new_sequenceDiagram.getQ(request.getReceiver()));
+                for(LifelineObject obj : new_sequenceDiagram.getQ(request.getSender()).getObjects()){
+                    obj.setTransmittion(request.getTransmition().equals("true"));
+                    obj.setDesc(request.getName());
+                }
+            }
+            sequenceDiagrams.add(new_sequenceDiagram);
         }
 
         history.push(loadData);
@@ -90,33 +108,73 @@ public class Parser {
      * @throws IOException when writer can't write to file or can't find the directory.
      */
     public void save(String filename) throws IOException {
-        loadData.removeClassDiagram();
+
+        loadData.removeEverything();
+        ObservableList<SequenceDiagram> sequenceDiagrams_print = FXCollections.unmodifiableObservableList(sequenceDiagrams);
+        if (sequenceDiagrams_print.size() > 0) {
+            sequenceDiagram = sequenceDiagrams_print.get(0);
+        }
+        loadData.setNameSeq(sequenceDiagram.getName());
+        for(UMLQuaestor quaestor:sequenceDiagram.getAllQuaestors()){
+            for(LifelineObject messege:quaestor.getObjects()){
+                JSMessage new_messege = new JSMessage(messege.getDesc(),String.valueOf(classDiagram.findClass(quaestor.getName()).getMethod(messege.getDesc()).getType()),quaestor.getName(),messege.getTarget().getName(),"false");
+                loadData.addMsg(new_messege);
+            }
+        }
+        for(SequenceDiagram sequenceDiagram: sequenceDiagrams_print) {
+            JSSequence sequence = new JSSequence(sequenceDiagram.getName());
+            for (UMLQuaestor quaestor : sequenceDiagram.getAllQuaestors()) {
+
+                List<JSAttr> attrList = new ArrayList<>();
+                JSClass new_questor = new JSClass(null, quaestor.getName(), attrList);
+                sequence.addQ(new_questor);
+                for (LifelineObject messege : quaestor.getObjects()) {
+                    JSMessage new_messege = new JSMessage(messege.getDesc(),String.valueOf(classDiagram.findClass(quaestor.getName()).getMethod(messege.getDesc()).getType()),quaestor.getName(),messege.getTarget().getName(),"false");
+                    sequence.addMsg(new_messege);
+                }
+            }
+            loadData.addSeq(sequence);
+        }
+
+
+
+        //loadData.removeClassDiagram();
+
         for (UMLClass classs: classDiagram.getClasses()){
             List<JSAttr> attrList = new ArrayList<>();
             for (UMLAttribute attribute: classs.getAttributes()){
                 JSAttr attr = new JSAttr(attribute.getName(), attribute.getType().toString());
                 attrList.add(attr);
             }
+
             List<String> methods= new ArrayList<>();
             for (UMLOperation method: classs.getMethods()){
                 methods.add(method.getName());
             }
+            List<JSMessage> remove_messeges = new ArrayList<>();
             for (UMLOperation method: classs.getMethods()){
                 List<String> messages = new ArrayList<>();
                 for (JSMessage message : loadData.getMessages()){
                     messages.add(message.getName());
                     if (!methods.contains(message.getName())){
-                        loadData.rmMsg(message);
+                        remove_messeges.add(message);
                     }
+
+
                 }
                 if (!messages.contains(method.getName())){
                     JSMessage message = new JSMessage(method.getName(),method.getType().toString(),classs.getName(), "", "false");
                     loadData.addMsg(message);
                 }
             }
+            for(JSMessage message:remove_messeges){
+                loadData.rmMsg(message);
+            }
             JSClass jsClass = new JSClass(String.valueOf(classs.isAbstract()), classs.getName(),attrList);
             loadData.addClass(jsClass);
         }
+
+
         for (Association association : classDiagram.getAssociations()){
             ArrayList<UMLClass> containers = new ArrayList<>();
             ArrayList<String> cardinality = new ArrayList<>();

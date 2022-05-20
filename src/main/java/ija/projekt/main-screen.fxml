@@ -236,12 +236,12 @@
                   </VBox>
                </content>
           </TitledPane>
-            <TitledPane animated="false" text="Sequnce Diagram">
+            <TitledPane animated="false" text="Seqeunce Diagram">
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="16.0" prefWidth="280.0" text="Sequence Diagrams" />
-                        <ListView prefHeight="100.0" prefWidth="200.0" />
+                        <ListView fx:id="lv_sequence_diagrams" prefHeight="100.0" prefWidth="200.0" />
                         <HBox alignment="CENTER" prefHeight="26.0" prefWidth="280.0">
                            <children>
                               <Label alignment="CENTER" prefHeight="16.0" prefWidth="53.0" text="Name" />
@@ -250,47 +250,47 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="280.0">
                            <children>
-                              <Button fx:id="btn_delete_sequence_diagram" mnemonicParsing="false" onAction="#deleteClass" prefHeight="24.0" prefWidth="68.0" text="Delete" />
+                              <Button fx:id="btn_delete_sequence_diagram" mnemonicParsing="false" onAction="#deleteSequenceDiagram" prefHeight="24.0" prefWidth="68.0" text="Delete" />
                               <Region prefHeight="32.0" prefWidth="104.0" />
-                              <Button fx:id="btn_create_sequence_diagram" mnemonicParsing="false" onAction="#createClass" prefHeight="24.0" prefWidth="68.0" text="Create" />
+                              <Button fx:id="btn_create_sequence_diagram" mnemonicParsing="false" onAction="#createSequenceDiagram" prefHeight="24.0" prefWidth="68.0" text="Create" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
-                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="277.0" text="Questors" textAlignment="CENTER" />
-                        <ListView prefHeight="100.0" prefWidth="200.0" />
+                        <Label alignment="CENTER" prefHeight="16.0" prefWidth="277.0" text="Quaestors" textAlignment="CENTER" />
+                        <ListView fx:id="lv_questors" prefHeight="100.0" prefWidth="200.0" />
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="280.0">
                            <children>
                               <Label alignment="CENTER" prefWidth="53.0" text="Name" />
-                              <ComboBox prefHeight="24.0" prefWidth="229.0" />
+                              <ComboBox fx:id="cb_questor_name" prefHeight="24.0" prefWidth="229.0" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="280.0">
                            <children>
-                              <Button mnemonicParsing="false" prefWidth="68.0" text="Delete" />
+                              <Button fx:id="btn_delete_questor" mnemonicParsing="false" onAction="#deleteQuestor" prefWidth="68.0" text="Delete" />
                               <Region prefHeight="200.0" prefWidth="104.0" />
-                              <Button mnemonicParsing="false" prefWidth="68.0" text="Add" />
+                              <Button fx:id="btn_add_questor" mnemonicParsing="false" onAction="#addQuestor" prefWidth="68.0" text="Add" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />
                         <Label alignment="CENTER" prefHeight="16.0" prefWidth="298.0" text="Messeges" />
-                        <ListView prefHeight="100.0" prefWidth="200.0" />
+                        <ListView fx:id="lv_messeges" prefHeight="100.0" prefWidth="200.0" />
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="280.0">
                            <children>
                               <Label alignment="CENTER" prefWidth="65.0" text="Name" />
-                              <ComboBox prefHeight="24.0" prefWidth="229.0" />
+                              <ComboBox fx:id="cb_messege_name" prefHeight="24.0" prefWidth="229.0" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="280.0">
                            <children>
                               <Label alignment="CENTER" prefHeight="16.0" prefWidth="65.0" text="Reciever" />
-                              <ComboBox prefHeight="24.0" prefWidth="229.0" />
+                              <ComboBox fx:id="cb_reciever_name" prefHeight="24.0" prefWidth="229.0" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="280.0">
                            <children>
-                              <Button mnemonicParsing="false" prefWidth="68.0" text="Delete" />
+                              <Button fx:id="btn_delete_messege" mnemonicParsing="false" onAction="#deleteMessege" prefWidth="68.0" text="Delete" />
                               <Region prefHeight="200.0" prefWidth="104.0" />
-                              <Button mnemonicParsing="false" prefWidth="68.0" text="Add" />
+                              <Button fx:id="btn_add_messege" mnemonicParsing="false" onAction="#addMessege" prefWidth="68.0" text="Add" />
                            </children>
                         </HBox>
                         <Separator prefWidth="200.0" />

@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +57,7 @@ public class UMLClass extends UMLClassifier {
      * @return list of attributes.
      */
     public List<UMLAttribute> getAttributes() {
-        return FXCollections.unmodifiableObservableList(attributes);
+        return (attributes);
     }
 
     /**
@@ -95,7 +96,7 @@ public class UMLClass extends UMLClassifier {
         this.methods.add(method);
     }
     public List<UMLOperation> getMethods() {
-        return FXCollections.unmodifiableObservableList(methods);
+        return (methods);
     }
     public void removeMethod(UMLOperation method) {
         methods.remove(method);
@@ -111,5 +112,13 @@ public class UMLClass extends UMLClassifier {
             listener.changed(null, null, name);
         }
         this.name = name;
+    }
+    public UMLOperation getMethod(String name){
+        for(UMLOperation method : methods){
+            if(method.getName().equals(name)){
+                return method;
+            }
+        }
+        return null;
     }
 }

@@ -1,5 +1,8 @@
 package ija.projekt.uml;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,7 @@ import java.util.List;
  * Class represents quaestor in sequence diagram.
  */
 public class UMLQuaestor extends UMLClassifier {
-    private List<LifelineObject> objs = new ArrayList<>();
+    private ObservableList<LifelineObject> objs = FXCollections.observableArrayList();
     private int x;
 
     /**
@@ -31,9 +34,12 @@ public class UMLQuaestor extends UMLClassifier {
         objs.add(new LifelineObject(target, trans));
         return this;
     }
+    public void addObject(LifelineObject object){
+        objs.add(object);
+    }
 
     public List<LifelineObject> getObjects() {
-        return this.objs;
+        return (objs);
     }
 
     /**

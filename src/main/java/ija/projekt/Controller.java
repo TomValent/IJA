@@ -41,7 +41,6 @@ import java.security.KeyException;
 import java.util.*;
 
 import static ija.projekt.Application.globalStage;
-import static ija.projekt.Parser.classDiagram;
 import static ija.projekt.Parser.*;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -57,6 +56,7 @@ public class Controller {
     private ObservableList<Association> associations = (ObservableList<Association>) classDiagram.getAssociations();
     private ObservableList<GeneralizationSpecification> generalizations = (ObservableList<GeneralizationSpecification>) classDiagram.getGenspecs();
     private ObservableList<AggregationComposition> aggrcomps = (ObservableList<AggregationComposition>) classDiagram.getAggrcomps();
+    private ObservableList<SequenceDiagram> sequenceDiagrams_gui = sequenceDiagrams;
     private ObservableList<String> cardinality =
             FXCollections.observableArrayList(
                     "1",
@@ -93,11 +93,18 @@ public class Controller {
     private Association selected_association = null;
     private GeneralizationSpecification selected_generalization = null;
     private AggregationComposition selected_aggrcomp = null;
+    private SequenceDiagram selected_sequence_diagram = null;
+    private UMLQuaestor selected_questor = null;
+    private UMLClass selected_questor_class = null;
+    private LifelineObject selected_messege = null;
     private Double mouseX;
     private Double mouseY;
     private int x = 20;
     private int y = 20;
+    private int sdx = 10;
+    private int sdy = 30;
     private GUI_Creator gui_creator=new GUI_Creator();
+    private List<LifelineObject> messeges_to_delete= new ArrayList<>();
 
     @FXML
     Pane class_pane;
@@ -156,6 +163,26 @@ public class Controller {
     @FXML
     ListView<AggregationComposition> lv_aggrcomps;
 
+    @FXML
+    ListView<SequenceDiagram> lv_sequence_diagrams;
+    @FXML
+    TextField tf_sequence_diagram_name;
+
+    @FXML
+    ListView<UMLQuaestor> lv_questors;
+    @FXML
+    ComboBox<UMLClass> cb_questor_name;
+
+    @FXML
+    ListView<LifelineObject> lv_messeges;
+    @FXML
+    ComboBox<UMLOperation> cb_messege_name;
+    @FXML
+    ComboBox<UMLQuaestor> cb_reciever_name;
+
+
+
+
 
     public static Stack<InOut> history = new Stack<InOut>();
     private String filename;
@@ -186,6 +213,7 @@ public class Controller {
                     if(change.wasAdded()) {
                         for(UMLClass classs : change.getAddedSubList()) {
                             new_class(classs);
+                            set_selected_class(classs);
                         }
                     }
                     else if(change.wasRemoved()) {
@@ -417,64 +445,53 @@ public class Controller {
         lv_aggrcomps.setItems(aggrcomps);
 
         //--------------------------------------------------------------
-        int x = 10;
-        int y = 30;
+        sequenceDiagrams_gui.addListener(new ListChangeListener<SequenceDiagram>() {
+            @Override
+            public void onChanged(Change<? extends SequenceDiagram> change) {
+                while(change.next()) {
+                    if(change.wasAdded()) {
+                        for(SequenceDiagram sequence : change.getAddedSubList()) {
+                            new_sequence_diagram(sequence);
+                        }
+                    }
+                    else if(change.wasRemoved()) {
+                        for(SequenceDiagram sequence : change.getRemoved()) {
+                            sequenceDiagrams.remove(selected_sequence_diagram);
+                            try {
+                                set_selected_sequence_diagram(null);
+                            } catch (KeyException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
 
-        labelSeq.setText(sequenceDiagram.getName());
-        for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
-            ListView<Object> newQ = new ListView<>();
-            Label nameSeq = new Label();
-            newQ.getItems().addAll(list);
-
-            nameSeq.setFont(Font.font(15));
-            nameSeq.setText(kvestor.getName());
-
-            VBox containerSeq = new VBox();
-
-            containerSeq.getChildren().addAll(nameSeq, newQ);
-            containerSeq.setAlignment(Pos.CENTER);
-            containerSeq.setStyle(cssLayout);
-            containerSeq.setPrefSize(90, 20);
-
-            containerSeq.setAlignment(Pos.TOP_CENTER);
-            Line line = new Line(x+45, 52, x+45, 700);
-
-            sequenceDiagram.getQ(kvestor.getName()).setX(x+45);     //ulozim si kde je vykresleny
-
-            seq_pane.getChildren().add(containerSeq);
-            seq_pane.getChildren().add(line);
-            Rectangle rectangle = new Rectangle(x+40, 80, 10, 400);
-            rectangle.setFill(Color.WHITE);
-            rectangle.setStroke(Color.BLACK);
-            seq_pane.getChildren().add(rectangle);
-            containerSeq.relocate(x, y);
-
-            x += 120;
-        }
-
-        int n = 1;
-        for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
-            for(LifelineObject message : kvestor.getObjects()){
-                Arrow arrow = new Arrow();
-
-                arrow.setEndX(message.getTarget().getX());      //receiver
-                arrow.setEndY((n)*20+90);
-
-                arrow.setStartX(kvestor.getX());                //sender
-                arrow.setStartY((n)*20+90);
-                seq_pane.getChildren().add(arrow);
-
-                Label msgText = new Label(message.getDesc());
-                if(kvestor.getX() < message.getTarget().getX()) {
-                    msgText.relocate(kvestor.getX()+20, (n++)*20+75);
-                    seq_pane.getChildren().add(msgText);
-                }
-                else {
-                    msgText.relocate(kvestor.getX()-50, (n++)*20+75);
-                    seq_pane.getChildren().add(msgText);
                 }
             }
-        }
+        });
+        lv_sequence_diagrams.setOnMouseClicked(event -> {
+            try {
+                set_selected_sequence_diagram(lv_sequence_diagrams.getSelectionModel().getSelectedItem());
+            } catch (KeyException e) {
+                e.printStackTrace();
+            }
+        });
+
+        lv_questors.setOnMouseClicked(event -> {
+            set_selected_questor(lv_questors.getSelectionModel().getSelectedItem());
+        });
+        lv_messeges.setOnMouseClicked(event -> {
+            set_selected_messege(lv_messeges.getSelectionModel().getSelectedItem());
+        });
+
+
+
+        lv_sequence_diagrams.setItems(sequenceDiagrams_gui);
+        cb_questor_name.setItems(classes);
+
+
+        set_selected_sequence_diagram(sequenceDiagram);
+
+
     }
 
     public void openFile(ActionEvent actionEvent) throws IOException, KeyException {
@@ -530,7 +547,7 @@ public class Controller {
     }
 
     public void createClass(){
-        classDiagram.createClass(tf_class_name.getText());
+        UMLClass new_class = classDiagram.createClass(tf_class_name.getText());
     }
 
     public void deleteClass(){
@@ -591,7 +608,160 @@ public class Controller {
         class_container_map.put(classs,class_container);
         container_class_map.put(class_container,classs);
 
-        set_selected_class(classs);
+    }
+
+    public void deleteSequenceDiagram(){
+        sequenceDiagrams.remove(selected_sequence_diagram);
+    }
+    public void createSequenceDiagram() throws KeyException {
+        SequenceDiagram sequence = new SequenceDiagram(tf_sequence_diagram_name.getText());
+        sequenceDiagrams.add(sequence);
+        set_selected_sequence_diagram(sequence);
+    }
+    public void new_sequence_diagram(SequenceDiagram sequenceDiagram){
+
+        sdx = 10;
+        sdy = 30;
+        seq_pane.getChildren().clear();
+        String cssLayout = "-fx-border-color: black;\n" +
+                "-fx-border-insets: 0;\n" +
+                "-fx-border-width: 1;\n";
+
+
+        labelSeq.setText(sequenceDiagram.getName());
+        for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
+            ListView<Object> newQ = new ListView<>();
+            Label nameSeq = new Label();
+            newQ.getItems().addAll(list);
+
+            nameSeq.setFont(Font.font(15));
+            nameSeq.setText(kvestor.getName());
+
+            VBox containerSeq = new VBox();
+
+            containerSeq.getChildren().addAll(nameSeq, newQ);
+            containerSeq.setAlignment(Pos.CENTER);
+            containerSeq.setStyle(cssLayout);
+            containerSeq.setPrefSize(90, 20);
+
+            containerSeq.setAlignment(Pos.TOP_CENTER);
+            Line line = new Line(sdx+45, 52, sdx+45, 700);
+
+            sequenceDiagram.getQ(kvestor.getName()).setX(sdx+45);     //ulozim si kde je vykresleny
+
+            seq_pane.getChildren().add(containerSeq);
+            seq_pane.getChildren().add(line);
+            Rectangle rectangle = new Rectangle(sdx+40, 80, 10, 400);
+            rectangle.setFill(Color.WHITE);
+            rectangle.setStroke(Color.BLACK);
+            seq_pane.getChildren().add(rectangle);
+            containerSeq.relocate(sdx, sdy);
+
+            sdx += 120;
+        }
+
+        int n = 1;
+        for(UMLQuaestor kvestor : sequenceDiagram.getAllQuaestors()){
+            for(LifelineObject message : kvestor.getObjects()) {
+                if (sequenceDiagram.getQ(message.getTarget().getName()) != null) {
+                    Arrow arrow = new Arrow();
+
+                    arrow.setEndX(message.getTarget().getX());      //receiver
+                    arrow.setEndY((n) * 20 + 90);
+
+                    arrow.setStartX(kvestor.getX());                //sender
+                    arrow.setStartY((n) * 20 + 90);
+                    seq_pane.getChildren().add(arrow);
+
+                    Label msgText = new Label(message.getDesc());
+                    if (kvestor.getX() < message.getTarget().getX()) {
+                        msgText.relocate(kvestor.getX() + 20, (n++) * 20 + 75);
+                        seq_pane.getChildren().add(msgText);
+                    } else {
+                        msgText.relocate(kvestor.getX() - 50, (n++) * 20 + 75);
+                        seq_pane.getChildren().add(msgText);
+                    }
+                }
+
+            }
+        }
+    }
+    public void addQuestor(){
+        if(selected_sequence_diagram!=null) {
+            UMLQuaestor new_questor = new UMLQuaestor(cb_questor_name.getValue().getName());
+            selected_sequence_diagram.addQuaestor(new_questor.getName());
+            set_selected_questor(new_questor);
+            new_sequence_diagram(selected_sequence_diagram);
+        }
+    }
+    public void deleteQuestor() throws KeyException {
+        if(selected_sequence_diagram != null && selected_questor!=null) {
+            selected_sequence_diagram.removeQuaestor(selected_questor);
+            set_selected_questor(null);
+            new_sequence_diagram(selected_sequence_diagram);
+        }
+    }
+    public void addMessege() throws KeyException {
+        if(selected_sequence_diagram != null && selected_questor!=null) {
+            LifelineObject object = new LifelineObject(selected_sequence_diagram.getQ(cb_reciever_name.getValue().getName()), false);
+            object.setDesc(cb_messege_name.getValue().getName());
+            selected_questor.addObject(object);
+            set_selected_messege(object);
+            new_sequence_diagram(selected_sequence_diagram);
+        }
+    }
+    public void deleteMessege(){
+        if(selected_messege != null && selected_questor!=null) {
+            selected_questor.unlink(selected_messege);
+            set_selected_messege(null);
+            new_sequence_diagram(selected_sequence_diagram);
+        }
+    }
+    public void set_selected_sequence_diagram(SequenceDiagram sequenceDiagram) throws KeyException {
+        if(sequenceDiagram!=null){
+            tf_sequence_diagram_name.setText(sequenceDiagram.getName());
+            lv_questors.setItems((ObservableList<UMLQuaestor>) sequenceDiagram.getAllQuaestors());
+            new_sequence_diagram(sequenceDiagram);
+        }
+        else{
+            tf_sequence_diagram_name.clear();
+            lv_questors.setItems(null);
+            seq_pane.getChildren().clear();
+        }
+        selected_sequence_diagram = sequenceDiagram;
+    }
+
+    public void set_selected_questor(UMLQuaestor questor){
+
+        if (questor != null){
+            cb_questor_name.setValue(classDiagram.findClass(questor.getName()));
+            lv_messeges.setItems((ObservableList<LifelineObject>) questor.getObjects());
+            cb_messege_name.setItems((ObservableList<UMLOperation>) classDiagram.findClass(questor.getName()).getMethods());
+            cb_reciever_name.setItems((ObservableList<UMLQuaestor>) selected_sequence_diagram.getAllQuaestors());
+            cb_messege_name.setValue(null);
+            cb_reciever_name.setValue(null);
+        }
+        else{
+            cb_questor_name.setValue(null);
+            lv_messeges.setItems(null);
+            cb_messege_name.setItems(null);
+            cb_messege_name.setValue(null);
+            cb_reciever_name.setValue(null);
+        }
+        selected_questor = questor;
+
+    }
+    public void set_selected_messege(LifelineObject messege){
+
+        if (messege != null){
+            cb_messege_name.setValue(classDiagram.findClass(selected_questor.getName()).getMethod(messege.getDesc()));
+            cb_reciever_name.setValue(messege.getTarget());
+        }
+        else{
+            cb_messege_name.setValue(null);
+            cb_reciever_name.setValue(null);
+        }
+        selected_messege = messege;
     }
 
     public void add_attribute(){
@@ -602,7 +772,6 @@ public class Controller {
             tf_attribute_name.clear();
             tf_attribute_type.clear();
             cb_attribute_modifier.setValue(null);
-            lv_attributes.getItems().add(new_attribute);
         }
     }
 
@@ -621,7 +790,6 @@ public class Controller {
             selected_class.addMethod(new_method);
             tf_method_name.clear();
             tf_method_type.clear();
-            lv_methods.getItems().add(new_method);
         }
     }
 
@@ -1395,8 +1563,8 @@ public class Controller {
             Double sy = y2 - y1;
             bx = x1 + (sx * partition);
             by = y1 + (sy * partition);
-            Double cx = x2 - (sx * (partition+0.06));
-            Double cy = y2 - (sy * (partition+0.06));
+            Double cx = x2 - (sx * (partition+0.07));
+            Double cy = y2 - (sy * (partition+0.07));
             Text t1 = new Text(bx, by, cardinality1);
             t1.setFont(new Font(10));
             Text t2 = new Text(cx, cy, cardinality2);

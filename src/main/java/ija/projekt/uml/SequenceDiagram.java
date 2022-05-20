@@ -1,5 +1,8 @@
 package ija.projekt.uml;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
  * Class for creeating sequence diagram.
  */
 public class SequenceDiagram extends Element {
-    private final List<UMLQuaestor> quaestors = new ArrayList<>();
+    private ObservableList<UMLQuaestor> quaestors = FXCollections.observableArrayList();
 
     /**
      * Constructor of sequence diagram.
@@ -49,11 +52,22 @@ public class SequenceDiagram extends Element {
      */
     public void removeQuaestor(UMLQuaestor someone) {
         for (var q: quaestors
-             ) {
+        ) {
             q.getObjects().removeIf(x -> x.getTarget().equals(someone));
         }
         quaestors.remove(someone);
     }
+    public void removeLinks(UMLQuaestor someone) {
+        for (var q: quaestors
+        ) {
+            q.getObjects().removeIf(x -> x.getTarget().equals(someone));
+        }
+    }
+
+    public void removeQ(UMLQuaestor someone) {
+        quaestors.remove(someone);
+    }
+
 
     /**
      * Getter for quaestor.
@@ -61,16 +75,21 @@ public class SequenceDiagram extends Element {
      * @return quaestor.
      * @throws KeyException quaestor does not exist.
      */
-    public UMLQuaestor getQ(String name) throws KeyException {
+    public UMLQuaestor getQ(String name) {
         for(UMLQuaestor tmp : quaestors){
             if(tmp.getName().equals(name)){
                 return tmp;
             }
         }
-        throw new KeyException("Given name not in list.");
+        return null;
     }
 
     public List<UMLQuaestor> getAllQuaestors(){
-        return this.quaestors;
+        return (quaestors);
+    }
+
+    @Override
+    public String toString(){
+        return this.name;
     }
 }
